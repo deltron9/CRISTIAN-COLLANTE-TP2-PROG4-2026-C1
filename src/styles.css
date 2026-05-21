@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+    --fondo-nav: rgb(48, 81, 158);
+    --fondo-btn: rgb(2, 78, 132);
+    --color-borde-btn: rgb(5, 38, 100);
+    --color-error: red;
+    --color-negro: black;
+    --color-blanco: white;
+    --color-gris: gray;
+    overflow: hidden;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
