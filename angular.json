@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "utnianos": {
+    "utnials": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "utnianos:build:production"
+              "buildTarget": "utnials:build:production"
             },
             "development": {
-              "buildTarget": "utnianos:build:development"
+              "buildTarget": "utnials:build:development"
             }
           },
           "defaultConfiguration": "development"
