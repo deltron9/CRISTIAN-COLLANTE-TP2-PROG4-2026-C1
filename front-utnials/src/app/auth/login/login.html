@@ -1,0 +1,58 @@
+<div class="contenedor-sysacad">
+    <div class="encabezado-utn">
+        <p>"Un sitio para la gente que pregunta lo mismo diez veces."</p>
+    </div>
+
+    <form [formGroup]="formLogin" (ngSubmit)="sendForm()" class="form-sysacad">
+        <div class="barra-titulo">
+            Inicio de sesión
+        </div>
+
+        <div class="grupo-campo">
+            <label for="usuario">Usuario:</label>
+            <div class="input-contenedor">
+                <input type="text" id="usuario" formControlName="usuario" autocomplete="off" />
+                    @if (formLogin.get('usuario')?.touched) {
+                        <div class="error-mensaje">
+                            @if (formLogin.get('usuario')?.hasError('required')) {
+                                <span>El usuario es obligatorio.</span>
+                            }
+                        </div>
+                    }
+            </div>
+        </div>
+
+
+        <div class="grupo-campo">
+            <label for="contra">Contraseña:</label>
+            <div class="input-contenedor">
+                <input type="password" id="contra" formControlName="password" />
+                @if (formLogin.get('password')?.touched) {
+                    <div class="error-mensaje">
+                        @if (formLogin.get('password')?.hasError('required')) {
+                            <span>La contraseña es requerida.</span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="caja-captcha">
+            <div class="captcha-izq">
+                <input type="checkbox" id="captcha" />
+                <label for="captcha">No soy un robot</label>
+            </div>
+            <div class="captcha-der">
+                <img src="/assets/recaptcha.webp" alt="reCAPTCHA logo" class="logo-captcha">
+                <span>reCAPTCHA</span>
+            </div>
+        </div>
+        <div class="contenedor-boton">
+            <button type="submit" class="btn-ingresar">Ingresar</button>
+        </div>
+
+        <p class="pie-advertencia">
+            Este sitio utiliza reCAPTCHA para prevenir accesos automatizados.
+        </p>
+    </form>
+</div>
