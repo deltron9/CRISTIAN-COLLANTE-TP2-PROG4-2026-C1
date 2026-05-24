@@ -1,5 +1,5 @@
 :root{
-    --fondo-nav: rgb(48, 81, 158);
+    --fondo-nav: rgb(20, 50, 121);
     --fondo-btn: rgb(2, 78, 132);
     --color-borde-btn: rgb(5, 38, 100);
     --color-error: red;
@@ -13,4 +13,14 @@ html, body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.error-mensaje {
+    color: var(--color-error);
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+header, footer {
+    flex-shrink: 0;
 }
