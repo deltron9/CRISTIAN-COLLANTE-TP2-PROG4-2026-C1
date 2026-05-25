@@ -1,12 +1,12 @@
 :host{
-    background: linear-gradient(to bottom, var(--color-blanco), rgb(245, 253, 255), #899acf);
+    background: linear-gradient(to bottom, var(--color-blanco), rgb(245, 253, 255), var(--color-secundario));
 }
 
 .fb-layout {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    padding: 30px 20px 0 20px;
+    padding: 20px 10px 0 10px;
     display: flex;
     font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
     justify-content: space-between;
@@ -16,7 +16,7 @@
 }
 
 .fb-col-izq {
-    width: 45%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     position: sticky;
@@ -28,7 +28,7 @@
 .fb-lema {
     font-size: 19px;
     font-weight: bold;
-    color: var(--fondo-btn);
+    color: var(--color-primario);
     line-height: 1.4;
     margin-top: 9px;
 }
@@ -39,7 +39,7 @@
     background-color: var(--color-blanco);
     margin-top: 10px;
     border-radius: 4px;
-    border: 3px dashed #bdc7d8;
+    border: 3px dashed var(--color-secundario);
     box-sizing: border-box;
 }
 
@@ -50,35 +50,37 @@
 }
 
 .fb-col-der {
-    width: 50%;
+    width: 45%;
     display: flex;
     flex-direction: column;
-    padding-bottom: 30px
+    padding-bottom: 30px;
+    justify-content: center;
 }
 
 .fb-contenedor-registro {
+    align-items: center;
+    text-align: center;
     width: 100%;
 }
 
 .fb-registro-cabecera h2 {
     font-size: 36px;
-    color: var(--color-negro);
+    color: var(--color-primario);
     margin: 0;
     font-weight: bold;
-    letter-spacing: -1px;
 }
 
 .fb-registro-cabecera h3 {
     font-size: 19px;
-    color: var(--fondo-btn);
-    margin: 5px 0 20px 0;
+    color: var(--color-secundario);
+    margin: 0;
     font-weight: normal;
 }
 
 .fb-formulario {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 8px;
 }
 
 .fb-fila {
@@ -92,7 +94,7 @@
     text-align: right;
     padding-right: 15px;
     font-size: 14px;
-    color: var(--fondo-btn);
+    color: var(--color-primario);
     font-weight: bold;
     margin-top: 6px;
 }
@@ -111,18 +113,13 @@
 .fb-formulario select {
     width: 100%;
     max-width: 270px;
-    border: 1px solid #bdc7d8;
+    border: 1px solid var(--color-secundario);
     padding: 5px 8px;
     font-size: 14px;
-    border-radius: 5px;
-    color: #333;
     outline: none;
     font-family: inherit;
     box-sizing: border-box;
-}
-
-.fb-formulario textarea {
-    resize: vertical;
+    transition: border-color 0.3s ease;
 }
 
 .fb-file-input {
@@ -130,16 +127,19 @@
     margin-top: 4px;
 }
 
+.fb-formulario input:focus{
+    border: 2px solid var(--color-primario);
+}
 
 .fb-fila-boton {
-    padding-left: 32%;
-    margin-top: 10px;
+    display: flex;
+    justify-content: center;
 }
 
 .fb-btn-registrarse {
     font-size: 19px;
     font-weight: bold;
-    color: #ffffff;
+    color: var(--color-blanco);
     letter-spacing: 0.5px;
     background: linear-gradient(#67ae55, #578843);
     border: 1px solid #3b6e22;
@@ -160,6 +160,15 @@
 }
 
 .linea-separadora {
-    border: 1px solid var(--fondo-nav);
-    margin: 15px 70px 15px 70px;
+    border: none;
+    border-top: 2px solid var(--color-secundario);
+    margin: 15px 90px;
+}
+
+.texto-logeo {
+    font-size: xx-small;
+    color: var(--color-primario);
+    text-align: center;
+    margin: -15px 0 0 0 !important;
+
 }

@@ -1,9 +1,8 @@
 :root {
-    --fondo-nav: rgb(32, 68, 152);
     --fondo-btn: rgb(2, 78, 132);
     --color-borde-btn: rgb(5, 38, 100);
-    --color-primario: rgb(37, 37, 130);
-    --color-secundario: rgb(59, 59, 178);
+    --color-primario: rgb(32, 68, 152);
+    --color-secundario: rgb(136, 153, 205);
     --color-error: red;
     --color-negro: black;
     --color-blanco: white;
