@@ -1,18 +1,23 @@
-:root{
-    --fondo-nav: rgb(20, 50, 121);
+:root {
+    --fondo-nav: rgb(32, 68, 152);
     --fondo-btn: rgb(2, 78, 132);
     --color-borde-btn: rgb(5, 38, 100);
+    --color-primario: rgb(37, 37, 130);
+    --color-secundario: rgb(59, 59, 178);
     --color-error: red;
     --color-negro: black;
     --color-blanco: white;
     --color-gris: gray;
-    overflow: hidden;
 }
 
 html, body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    height: 100vh; 
+    width: 100%; 
+    overflow-x: hidden; 
+    display: flex;
+    flex-direction: column;
 }
 
 .error-mensaje {
@@ -23,4 +28,17 @@ html, body {
 
 header, footer {
     flex-shrink: 0;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer {
+    margin-top: auto; 
 }
