@@ -1,0 +1,38 @@
+.error-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 50px;
+}
+
+.error-gif {
+    width: 400px;
+    height: 350px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.btn-volver {
+    background-color: var(--fondo-btn);
+    color: var(--color-blanco);
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-back:hover {
+    background-color: var(--color-borde-btn);
+    transform: translateY(-2px);
+}
+
+.btn-back:active {
+    transform: translateY(0);
+}
