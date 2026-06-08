@@ -3,7 +3,7 @@
     --color-borde-btn: rgb(5, 38, 100);
     --color-primario: rgb(32, 68, 152);
     --color-secundario: rgb(136, 153, 205);
-    --color-error: red;
+    --color-error: rgb(255, 0, 0);
     --color-negro: black;
     --color-blanco: white;
     --color-gris: gray;
@@ -20,6 +20,7 @@ html, body {
 }
 
 .error-mensaje {
+    text-align: start;
     color: var(--color-error);
     font-size: 11px;
     margin-top: 2px;
@@ -40,4 +41,17 @@ main {
 
 footer {
     margin-top: auto; 
+}
+
+.swal2-toast {
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08) !important;
+    border-radius: 8px !important;
+    border: 1px solid #e4e6eb !important;
+    padding: 12px !important;
+}
+
+.swal2-html-container {
+    font-size: 14px !important;
+    font-weight: 500 !important;
 }
