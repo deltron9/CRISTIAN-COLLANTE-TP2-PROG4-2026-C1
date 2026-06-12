@@ -32,7 +32,7 @@ export class CreateUsuarioDto {
 
   @IsOptional()
   @IsString()
-  imagen?: string;
+  profileImg?: string;
 
   @IsOptional()
   @IsString()
