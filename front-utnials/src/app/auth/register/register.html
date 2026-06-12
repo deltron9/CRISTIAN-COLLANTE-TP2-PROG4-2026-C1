@@ -1,0 +1,150 @@
+<div class="fb-layout">
+    <div class="fb-col-izq">
+        <p class="fb-lema">Utnials te ayuda a comunicarte y compartir con todas esas personas que se quejaron por el parcial de análisis de datos.</p>
+        <div class="fb-mapa-placeholder">
+            <img src="assets/mapaavellaneda.webp" alt="mapa">
+        </div>
+    </div>
+
+    <div class="fb-col-der">
+        <div class="fb-contenedor-registro">
+            <div class="fb-registro-cabecera">
+                <h2>Regístrate</h2>
+                <h3>Es gratis y lo será siempre.</h3>
+            </div>
+            <div class="linea-separadora"></div>
+            <form [formGroup]="formRegistro" (ngSubmit)="sendRegistro()" class="fb-formulario">
+                
+                <div class="fb-fila">
+                    <label for="nombre">Nombre:</label>
+                    <div class="fb-campo-input">
+                        <input type="text" id="nombre" formControlName="nombre" />
+                        @if (formRegistro.get('nombre')?.touched && formRegistro.get('nombre')?.errors) {
+                            @if (formRegistro.get('nombre')?.getError('required')) {
+                                <span class="error-mensaje">El nombre es obligatorio.</span>
+                            } @else if (formRegistro.get('nombre')?.getError('minlength'); as MINLENGTH) {
+                                <span class="error-mensaje">Su nombre no puede contener menos de {{ MINLENGTH.requiredLength }} letras.</span>
+                            } @else if (formRegistro.get('nombre')?.getError('maxlength'); as MAXLENGTH) {
+                                <span class="error-mensaje">Su nombre no puede contener más de {{ MAXLENGTH.requiredLength }} letras.</span>
+                            }@else if (formRegistro.get('nombre')?.getError('pattern')) {
+                                <span class="error-mensaje">Solo se permiten letras.</span>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila">
+                    <label for="apellido">Apellido:</label>
+                    <div class="fb-campo-input">
+                        <input type="text" id="apellido" formControlName="apellido" />
+                        @if (formRegistro.get('apellido')?.touched && formRegistro.get('apellido')?.errors) {
+                            @if (formRegistro.get('apellido')?.getError('required')) {
+                                <span class="error-mensaje">El apellido es obligatorio.</span>
+                            } @else if (formRegistro.get('apellido')?.getError('minlength'); as MINLENGTH) {
+                                <span class="error-mensaje">Su apellido no puede contener menos de {{ MINLENGTH.requiredLength }} letras.</span>
+                            } @else if (formRegistro.get('apellido')?.getError('maxlength'); as MAXLENGTH) {
+                                <span class="error-mensaje">Su apellido no puede contener mas de {{ MAXLENGTH.requiredLength }} letras.</span>
+                            }@else if (formRegistro.get('apellido')?.getError('pattern')) {
+                                <span class="error-mensaje">Solo se permiten letras.</span>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila">
+                    <label for="email">Tu correo:</label>
+                    <div class="fb-campo-input">
+                        <input type="email" id="email" formControlName="email" />
+                        @if (formRegistro.get('email')?.touched! && formRegistro.get('email')?.errors) {
+                            <span class="error-mensaje">El correo electrónico es requerido.</span>
+                        }
+                        @else if (formRegistro.get('email')?.getError('email')) {
+                            <span class="error-mensaje">Ingresa un correo electrónico valido</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila">
+                    <label for="username">Nombre de usuario:</label>
+                    <div class="fb-campo-input">
+                        <input type="text" id="username" formControlName="username" />
+                        @if (formRegistro.get('username')?.touched! && formRegistro.get('username')?.errors) {
+                            <span class="error-mensaje">El usuario es obligatorio.</span>
+                        }
+                        @else if (formRegistro.get('username')?.getError('minlength'); as MINLENGTH) {
+                            <span class="error-mensaje">Debe poseer mínimo {{MINLENGTH.requiredLength}} caracteres.</span>
+                        }
+                        @else if (formRegistro.get('username')?.getError('maxlength'); as MAXLENGTH) {
+                            <span class="error-mensaje">Debe poseer máximo {{MAXLENGTH.requiredLength}} caracteres.</span>
+                        }
+                        @else if (formRegistro.get('username')?.getError('pattern')) {
+                            <span class="error-mensaje">Debe tener letras, números o carácteres validos (-, _, ., @).</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila">
+                <label for="password">Nueva contraseña:</label>
+                    <div class="fb-campo-input">
+                        <input type="password" id="password" formControlName="password" />
+                        @if (formRegistro.get('password')?.touched) {
+                        @if (formRegistro.get('password')?.hasError('required')) {
+                            <span class="error-mensaje">La contraseña es requerida.</span>
+                        }
+                        @if (formRegistro.get('password')?.hasError('minlength')) {
+                            <span class="error-mensaje">Minimo 8 caracteres requeridos.</span>
+                        }
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila">
+                    <label for="repetirPassword">Repetir contraseña:</label>
+                    <div class="fb-campo-input">
+                        <input type="password" id="repetirPassword" formControlName="repetirPassword" />
+                        @if (formRegistro.get('repetirPassword')?.touched && formRegistro.get('repetirPassword')?.hasError('noCoincide')) {
+                        <span class="error-mensaje">Las contraseñas no coinciden.</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila">
+                    <label for="fechaNacimiento">Fecha de nacimiento:</label>
+                    <div class="fb-campo-input">
+                        <input type="date" id="fechaNacimiento" formControlName="fechaNacimiento" class="fb-select-fecha" />
+                        @if (formRegistro.get('fechaNacimiento')?.touched && formRegistro.get('fechaNacimiento')?.hasError('required')) {
+                        <span class="error-mensaje">Fecha requerida.</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila">
+                <label for="profileImg">Imagen de perfil:</label>
+                    <div class="fb-campo-input">
+                        <input type="file" id="profileImg" formControlName="profileImg" class="fb-file-input" />
+                        @if (formRegistro.get('profileImg')?.touched && formRegistro.get('profileImg')?.hasError('required')) {
+                        <span class="error-mensaje">La foto de perfil es obligatoria.</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila">
+                    <label for="descripcion">Descripcion:</label>
+                    <div class="fb-campo-input ">
+                        <textarea id="descripcion" formControlName="descripcion" rows="2" placeholder="Añade una biografía inicial"></textarea>
+                        @if (formRegistro.get('descripcion')?.hasError('maxlength')) {
+                        <span class="error-mensaje">Maximo 150 caracteres.</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="fb-fila-boton">
+                <button type="submit" class="fb-btn-registrarse">Registrate</button>
+                </div>
+                <div class="linea-separadora"></div>
+                    <h5 class="texto-logeo">¿Ya estás registrado? Iniciá sesión haciendo <a href="auth/login">click acá</a></h5>
+            </form>
+        </div>
+    </div>
+
+</div>
