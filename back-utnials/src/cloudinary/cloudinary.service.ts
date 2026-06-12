@@ -1,16 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { v2 as cloudinary } from 'cloudinary';
 
+@Injectable()
+export class CloudinaryService {
+
+async subirImagen(file: Express.Multer.File, folderName: string): Promise<string> {
+    
     cloudinary.config({
         cloud_name: process.env.CLOUD_NAME,
         api_key: process.env.CLOUD_API,
         api_secret: process.env.CLOUD_API_SECRET,
     });
 
-@Injectable()
-export class CloudinaryService {
-
-async subirImagen(file: Express.Multer.File, folderName: string): Promise<string> {
     if (!file) {
         throw new BadRequestException('No se subio ningun archivo');
     }
