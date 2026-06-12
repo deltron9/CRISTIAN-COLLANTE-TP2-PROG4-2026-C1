@@ -119,13 +119,10 @@
                 </div>
 
                 <div class="fb-fila">
-                <label for="profileImg">Imagen de perfil:</label>
-                    <div class="fb-campo-input">
-                        <input type="file" id="profileImg" formControlName="profileImg" class="fb-file-input" />
-                        @if (formRegistro.get('profileImg')?.touched && formRegistro.get('profileImg')?.hasError('required')) {
-                        <span class="error-mensaje">La foto de perfil es obligatoria.</span>
-                        }
-                    </div>
+                    <label for="profileImg">Imagen de perfil:</label>
+                        <div class="fb-campo-input">
+                            <input type="file" id="profileImg" (change)="onFileChange($event)" accept="image/*" class="fb-file-input" />
+                        </div>
                 </div>
 
                 <div class="fb-fila">
