@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UnauthorizedException, HttpStatus, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { CloudinaryService } from './../cloudinary/cloudinary.service';
@@ -38,7 +38,14 @@ export class AuthController {
     return this.authService.registro(createUsuarioDto, urlImagen);
   }
 
-  
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  async login(
+    @Body('identificador') identificador: string,
+    @Body('passwordIngresada') passwordIngresada: string
+  ) {
+    return this.authService.login(identificador, passwordIngresada);
+  }
 
 
 }
