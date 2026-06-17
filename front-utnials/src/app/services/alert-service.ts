@@ -48,4 +48,26 @@ export class AlertService {
     });
   }
 
+  async msjExpiracionSesion(): Promise<boolean> {
+    const resultado = await Swal.fire({
+      icon: 'warning',
+      title: 'Tu sesion esta por expirar',
+      text: 'Por razones de seguridad, tu sesion finaliza en 5 minutos por inactividad. ¿Queres seguir conectado?',
+      showCancelButton: true,
+      confirmButtonText: 'extender sesion',
+      cancelButtonText: 'cerrar sesion',
+      confirmButtonColor: '#1877f2',
+      cancelButtonColor: '#dc3545',
+      heightAuto: false,
+      background: '#ffffff',
+      backdrop: `rgba(15, 23, 42, 0.75)`,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      stopKeydownPropagation: true
+    });
+
+    return resultado.isConfirmed;
+  }
+
 }
