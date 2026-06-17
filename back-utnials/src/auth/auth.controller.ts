@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UnauthorizedException, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UnauthorizedException, HttpStatus, HttpCode, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { CloudinaryService } from './../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-
+import type { response, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -13,7 +13,8 @@ export class AuthController {
   @UseInterceptors(FileInterceptor('profileImg'))
   async registrar(
     @UploadedFile() file: Express.Multer.File,
-    @Body() createUsuarioDto: CreateUsuarioDto
+    @Body() createUsuarioDto: CreateUsuarioDto,
+    @Res({ passthrough: false}) response: Response
   ) {
     let urlImagen: string;
 
@@ -31,20 +32,37 @@ export class AuthController {
         'https://res.cloudinary.com/dlhhbgj7r/image/upload/v1781149020/482032967_949840107352286_1958018150153196724_n_kgl7qb.jpg'
 
       ];
-      const random = Math.floor(Math.random() * AVATARES_DEFAULT.length);
-      urlImagen = AVATARES_DEFAULT[random];
+    const random = Math.floor(Math.random() * AVATARES_DEFAULT.length);
+    urlImagen = AVATARES_DEFAULT[random];
     }
 
-    return this.authService.registro(createUsuarioDto, urlImagen);
+    const {token, usuario} = await this.authService.registro(createUsuarioDto, urlImagen);
+
+    response.cookie('autorizacion', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true,
+      expires: new Date(Date.now() + 1000 * 60 * 15),
+    });
+    response.send(usuario)
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(
     @Body('identificador') identificador: string,
-    @Body('passwordIngresada') passwordIngresada: string
+    @Body('passwordIngresada') passwordIngresada: string,
+    @Res({ passthrough: true}) response: Response
   ) {
-    return this.authService.login(identificador, passwordIngresada);
+    const {token, usuario} = await this.authService.login(identificador, passwordIngresada);
+    response.cookie('autorizacion', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true,
+      expires: new Date(Date.now() + 1000 * 60 * 15),
+    });
+
+    return usuario;
   }
 
 
