@@ -70,4 +70,8 @@ export class AlertService {
     return resultado.isConfirmed;
   }
 
+  cerrarAlerta(){
+    Swal.close();
+  }
+
 }

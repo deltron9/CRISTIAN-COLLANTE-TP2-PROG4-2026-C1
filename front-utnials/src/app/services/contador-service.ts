@@ -31,8 +31,8 @@ export class ContadorService {
       if (quiereExtender) {
         this.notificarExtenderSesion();
       } else {
-
         this.sesionExpirada.set(true);
+        this.alert.cerrarAlerta();
         this.limpiarTimers();
       }
 
@@ -40,6 +40,7 @@ export class ContadorService {
   }
 
   reseteadoExitoso() {
+    this.alert.cerrarAlerta();
     this.limpiarTimers();
   }
 
@@ -48,7 +49,7 @@ export class ContadorService {
     clearTimeout(this.timerExpiracionFinal);
   }
 
-  notificarExtenderSesion() {
+  private notificarExtenderSesion() {
     this.limpiarTimers();
     if (window) {
       window.dispatchEvent(new CustomEvent('extender_sesion_click'));
