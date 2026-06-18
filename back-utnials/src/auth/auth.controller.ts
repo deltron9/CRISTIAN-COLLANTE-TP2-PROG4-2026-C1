@@ -81,7 +81,7 @@ export class AuthController {
       expires: new Date(Date.now() + 1000 * 60 * 15),
     });
 
-    return response.status(HttpStatus.OK).json({statusCode: HttpStatus.OK, message: 'Token refrescado'});
+    return {statusCode: HttpStatus.OK, message: 'Token refrescado'};
   }
 
 
