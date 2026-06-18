@@ -15,8 +15,8 @@ export class AuthService {
     return bcrypt.compare(password, hashedPassword);
   }
 
-  generateToken(userId: string, email: string, username: string): string {
-    const payload = { id: userId, email, username};
+  generateToken(userId: string, email: string, username: string, perfil: string): string {
+    const payload = { id: userId, email, username, perfil};
     const clave_secreta = process.env.JWT_SECRET!;
     const tiempo_exp_token = process.env.JWT_VENC_TOKEN!;
     
@@ -31,7 +31,8 @@ export class AuthService {
       const token = this.generateToken(
         usuarioCreado._id.toString(),
         usuarioCreado.email,
-        usuarioCreado.username
+        usuarioCreado.username,
+        usuarioCreado.perfil
       );
 
       return { token, usuario: usuarioCreado };
@@ -62,6 +63,7 @@ export class AuthService {
       usuarioSinPassword._id.toString(),
       usuarioSinPassword.email,
       usuarioSinPassword.username,
+      usuarioSinPassword.perfil
     );
 
     return { token, usuario: usuarioSinPassword };
@@ -87,8 +89,9 @@ export class AuthService {
 
       const nuevoToken = this.generateToken(
         payload.id,
+        payload.email,
         payload.username,
-        payload.perfil,
+        payload.perfil
       );
       return nuevoToken;
 
