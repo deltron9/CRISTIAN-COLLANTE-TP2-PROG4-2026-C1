@@ -94,4 +94,9 @@ export class PublicacionesService {
     return this.publicacionModel.findByIdAndUpdate(idPublicacion, {$pull: { meGusta: userId }, 
       $inc: { meGustaCount: -1 }},{ new: true }).populate('autor', 'username imagen nombre apellido');
   }
+
+  async eliminarComentario(idPublicacion: string, idComentario: string) {
+    return this.publicacionModel.findByIdAndUpdate(idPublicacion, {$pull: { comentarios: idComentario },
+    $inc:{comentariosCount:-1}});
+  }
 }
