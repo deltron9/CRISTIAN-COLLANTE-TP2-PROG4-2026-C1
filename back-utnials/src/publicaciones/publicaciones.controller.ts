@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { PublicacionesService } from './publicaciones.service';
 import { CreatePublicacioneDto } from './dto/create-publicacione.dto';
 import { UpdatePublicacioneDto } from './dto/update-publicacione.dto';
+import { JwtGuard } from 'src/auth/guards/jwt/jwt.guard';
 
 @Controller('publicaciones')
 export class PublicacionesController {
@@ -13,8 +14,10 @@ export class PublicacionesController {
   }
 
   @Get()
-  findAll() {
-    return this.publicacionesService.findAll();
+  @UseGuards(JwtGuard)
+  obtenerPosts(@Req() request: Request) {
+    const usuarioLogueado = (request as any).user;
+    return { status: 'ok', usuario: usuarioLogueado };
   }
 
   @Get(':id')
