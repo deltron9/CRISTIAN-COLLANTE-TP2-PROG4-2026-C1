@@ -70,6 +70,23 @@ export class AlertService {
     return resultado.isConfirmed;
   }
 
+  async msjErrorSesion(): Promise<void> {
+    await Swal.fire({
+      icon: 'warning',
+      title: 'Sesión expirada',
+      text: 'sesion expirada o error de token. ',
+      showConfirmButton: true,
+      confirmButtonText: 'Ir al login',
+      confirmButtonColor: '#1877f2',
+      heightAuto: false,
+      background: '#ffffff',
+      backdrop: `rgba(15, 23, 42, 0.75)`,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: true
+    });
+  }
+
   cerrarAlerta(){
     Swal.close();
   }
