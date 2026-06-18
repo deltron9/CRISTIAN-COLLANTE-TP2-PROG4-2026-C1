@@ -49,10 +49,16 @@ export class ContadorService {
     clearTimeout(this.timerExpiracionFinal);
   }
 
-  private notificarExtenderSesion() {
+  notificarExtenderSesion() {
     this.limpiarTimers();
     if (window) {
       window.dispatchEvent(new CustomEvent('extender_sesion_click'));
     }
+  }
+
+  notificarCierreDefinitivo() {
+    this.alert.cerrarAlerta();
+    this.limpiarTimers();
+    window.dispatchEvent(new CustomEvent('sesion_expirada_timeout'));
   }
 }
