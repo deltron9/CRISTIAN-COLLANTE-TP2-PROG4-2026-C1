@@ -1,9 +1,9 @@
-export interface Publicacion {
+export interface IPublicacion {
     _id: string;
     titulo: string;
     descripcion: string;
     imagenUrl?: string;
-  
+
     autor: {
         _id: string;
         username: string;
