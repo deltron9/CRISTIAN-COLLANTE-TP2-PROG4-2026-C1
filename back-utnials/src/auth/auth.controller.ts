@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UnauthorizedException, HttpStatus, HttpCode, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UnauthorizedException, HttpStatus, HttpCode, Res, Req, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { CloudinaryService } from './../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import type { response, Response } from 'express';
+import type { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -63,6 +63,25 @@ export class AuthController {
     });
 
     return usuario;
+  }
+
+  @Post('refrescar')
+  @HttpCode(HttpStatus.OK)
+  async refrescar(@Req() request: Request, @Res({passthrough: true}) response: Response) {
+    const tokenViejo = request.cookies['autorizacion'];
+    if (!tokenViejo){ 
+      throw new BadRequestException('Token no proporcionado');
+    }
+    const nuevoToken = await this.authService.refrescar(tokenViejo);
+
+    response.cookie('autorizacion', nuevoToken, {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true,
+      expires: new Date(Date.now() + 1000 * 60 * 15),
+    });
+
+    return response.status(HttpStatus.OK).json({statusCode: HttpStatus.OK, message: 'Token refrescado'});
   }
 
 

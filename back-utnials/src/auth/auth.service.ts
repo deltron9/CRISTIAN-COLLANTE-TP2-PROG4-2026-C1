@@ -66,4 +66,34 @@ export class AuthService {
 
     return { token, usuario: usuarioSinPassword };
   }
+
+  verificarToken(token: string): any {
+    try {
+      const clave_secretita = process.env.JWT_SECRET!
+      return jwt.verify(token, clave_secretita) as any;
+    } catch (error) {
+      throw new UnauthorizedException('Token invalido o expirado');
+    }
+  }
+
+  async refrescar(tokenViejo: string): Promise<string> {
+    try {
+      const payload = this.verificarToken(tokenViejo);
+      const usuario = await this.usuariosService.findOne(payload.id);
+
+      if (!usuario) {
+        throw new UnauthorizedException('Usuario no encontrado');
+      }
+
+      const nuevoToken = this.generateToken(
+        payload.id,
+        payload.username,
+        payload.perfil,
+      );
+      return nuevoToken;
+
+    } catch (error) {
+      throw new UnauthorizedException('sesion desconocida o expirada');
+    }
+  }
 }
