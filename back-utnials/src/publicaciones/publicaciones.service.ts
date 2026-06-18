@@ -99,4 +99,8 @@ export class PublicacionesService {
     return this.publicacionModel.findByIdAndUpdate(idPublicacion, {$pull: { comentarios: idComentario },
     $inc:{comentariosCount:-1}});
   }
+
+  async agregarComentario(idPublicacion: string, idComentario: string) {
+    return this.publicacionModel.findByIdAndUpdate( idPublicacion, {$push: { comentarios: idComentario }, $inc:{ comentariosCount: 1 }});
+  }
 }
