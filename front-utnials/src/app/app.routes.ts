@@ -15,11 +15,13 @@ export const routes: Routes = [
         children: [
             {
                 path: 'login',
-                component: Login
+                component: Login,
+                canActivate: [RutasParaLogeadosGuard]
             },
             {
                 path: 'register',
-                component: Register
+                component: Register,
+                canActivate: [RutasParaLogeadosGuard]
             }
         ]
     },
