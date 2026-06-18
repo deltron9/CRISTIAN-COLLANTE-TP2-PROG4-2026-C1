@@ -40,6 +40,7 @@ export class UsuariosService {
       descripcion: createUsuarioDto.descripcion || '',
       imagen: imagenUrl,
       perfil: createUsuarioDto.perfil || 'user',
+      activo: createUsuarioDto.activo !== undefined ? createUsuarioDto.activo : true
     });
 
     return await nuevoUsuario.save();
@@ -49,19 +50,25 @@ export class UsuariosService {
     return this.UsuarioModel.findOne({ $or: [{ email: identifier }, { username: identifier }],}).select('+password').exec();
   }
 
-  findAll() {
-    return `This action returns all usuarios`;
+  async findAll(): Promise<Usuario[]> {
+    return this.UsuarioModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  async findOne(id: string): Promise<Usuario | null> {
+    return this.UsuarioModel.findById(id).exec();
   }
 
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
+  async habilitar(id: string) {
+    await this.UsuarioModel.findByIdAndUpdate(id, { activo: true }).exec();
+    return { message: 'usuario dado de alta' };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
+  async deshabilitar(id: string) {
+    await this.UsuarioModel.findByIdAndUpdate(id, { activo: false }).exec();
+    return { message: 'Usuario dado de baja' };
+  }
+
+  async update(id: string, updateUsuarioDto: UpdateUsuarioDto) {
+    return this.UsuarioModel.findByIdAndUpdate(id, updateUsuarioDto, { new: true }).exec();
   }
 }
