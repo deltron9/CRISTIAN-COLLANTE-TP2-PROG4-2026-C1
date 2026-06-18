@@ -1,19 +1,41 @@
-<nav class="navbar">
-    <div class="container-logo-utnials">
-        <img src="assets/logo-sinfondo.webp" alt="logo-utnials">
-    </div>
-    <ul class="links-nav">
-        <td>
-            <a href="auth/login">Ingresar</a>
-        </td>
-        <td>
-            <a href="auth/register">Registro</a>
-        </td>
-        <td>
-            <a href="https://www.utnfravirtual.org.ar/" target="_blank">Campus</a>
-        </td>
-        <td>
-            <a href="https://servicios.fra.utn.edu.ar/Sysacad/loginAlumno.asp?refrescar" target="_blank">Sysacad</a>
-        </td>
-    </ul>
-</nav>
+@if (this.auth.usuarioActual()) {
+    <nav class="barra-lateral">
+        <div class="zona-marca">
+            <img src="assets/logo-sinfondo.webp" alt="logo-utnials" class="logo-miniatura">
+        </div>
+
+        <div class="perfil-usuario">
+            <img [src]="this.auth.usuarioActual()?.imagen" alt="Foto de perfil" class="avatar">
+            <span class="nombre-usuario">&#64;{{ this.auth.usuarioActual()?.username }}</span>
+        </div>
+
+        <ul class="enlaces-verticales">
+            <li>
+                <a href="/publicaciones">
+                    <span class="icono"></span> Publicaciones
+                </a>
+            </li>
+            <li>
+                <a href="/mi-Perfil">
+                    <span class="icono"></span> Mi Perfil
+                </a>
+            </li>
+        </ul>
+        
+        <div class="zona-salir">
+            <button (click)="this.auth.logout()" class="btn-salir">Cerrar sesión</button>
+        </div>
+    </nav>
+} @else {
+    <nav class="barra-horizontal">
+        <div class="contenedor-logo-utnials">
+            <img src="assets/logo-sinfondo.webp" alt="logo-utnials">
+        </div>
+        <ul class="enlaces-horizontales">
+            <li><a href="auth/login">Ingresar</a></li>
+            <li><a href="auth/register">Registro</a></li>
+            <li><a href="https://www.utnfravirtual.org.ar/" target="_blank">Campus</a></li>
+            <li><a href="https://servicios.fra.utn.edu.ar/Sysacad/loginAlumno.asp?refrescar" target="_blank">Sysacad</a></li>
+        </ul>
+    </nav>
+}
