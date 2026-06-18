@@ -5,7 +5,7 @@ import { Comentario } from 'src/comentarios/entities/comentario.entity';
 
 export type PublicacionDocument = mongoose.HydratedDocument<Publicacion>;
 
-@Schema({ timestamps: true })
+@Schema({ collection: 'publicaciones_utnials', timestamps: true })
 export class Publicacion {
     @Prop({ required: true })
     titulo: string;
