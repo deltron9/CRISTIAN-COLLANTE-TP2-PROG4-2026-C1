@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UnauthorizedException, HttpStatus, HttpCode, Res, Req, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UnauthorizedException, HttpStatus, HttpCode, Res, Req, BadRequestException, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { CloudinaryService } from './../cloudinary/cloudinary.service';
@@ -84,5 +84,17 @@ export class AuthController {
     return {statusCode: HttpStatus.OK, message: 'Token refrescado'};
   }
 
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  async logout(@Res({ passthrough: true }) response: Response) {
+    response.cookie('autorizacion', '', {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true,
+      expires: new Date(0),
+    });
+
+    return { statusCode: HttpStatus.OK, message: 'sesion cerrada' };
+  }
 
 }
