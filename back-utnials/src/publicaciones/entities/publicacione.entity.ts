@@ -20,16 +20,19 @@ export class Publicacion {
     autor: Usuario;
 
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: Usuario.name }])
-    meGusta: Usuario[];
+    likes: Usuario[];
 
     @Prop({ default: 0 })
-    meGustaCount: number;
+    likesCantidad: number;
 
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: Comentario.name }])
     comentarios: Comentario[];
 
     @Prop({ default: 0 })
     comentariosCount: number;
+
+    @Prop({ type: Boolean, default: true })
+    activo: boolean;
 }
 
 export const PublicacionSchema = SchemaFactory.createForClass(Publicacion);
