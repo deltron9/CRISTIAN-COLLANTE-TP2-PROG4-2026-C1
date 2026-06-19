@@ -8,35 +8,31 @@ import { CreatePublicacioneDto } from './dto/create-publicacione.dto';
 export class PublicacionesService {
   constructor(@InjectModel(Publicacion.name) private publicacionModel: Model<PublicacionDocument>) {}
 
-  async create(createDto: CreatePublicacioneDto, autorId: string, imagenUrl?: string) {
+  async create(createDto: CreatePublicacioneDto, autorId: string, imagenUrl: string) {
     const nuevaPublicacion = new this.publicacionModel({
       ...createDto,
       autor: autorId,
       imagenUrl: imagenUrl,
-      estado: 'activo',
       likes: [],
-      cantidadLikes: 0,
-      comentarios: [],
-      cantidadComentarios: 0,
+      likesCantidad: 0,
+      activo: true
     });
-    return nuevaPublicacion.save();
+
+    const publicacionGuardada = await nuevaPublicacion.save();
+
+    await publicacionGuardada.populate('autor');
+
+    return publicacionGuardada;
   }
 
   async findAll(limit: number, offset: number, sortBy: string, userId?: string) {
-    const filter: any = { estado: 'activo' };
+    const query: any = { activo: { $not: { $eq: false } } }; 
+
     if (userId) {
-      filter.autor = userId;
+      query.autor = userId;
     }
 
-    let sortOptions: any;
-    if (sortBy === 'likes') {
-      sortOptions = { meGustaCount: -1, createdAt: -1 };
-    } else {
-      sortOptions = { createdAt: -1 };
-    }
-
-    return this.publicacionModel.find(filter).sort(sortOptions).skip(offset).limit(limit)
-    .populate('autor', 'username imagen nombre apellido').exec();
+    return await this.publicacionModel.find(query).sort({[sortBy]: -1}).skip(offset).limit(limit).populate('autor').exec();
   }
 
   async obtenerTodas() {
@@ -58,41 +54,25 @@ export class PublicacionesService {
   }
 
   async bajaLogica(id: string) {
-    const publicacion = await this.publicacionModel.findByIdAndUpdate(id, { estado: 'eliminado' }, {new: true});
-    if (!publicacion) {
-      throw new NotFoundException('publicacion no encontrada');
-    }
-    return publicacion;
+    const publicacionModificada = await this.publicacionModel.findByIdAndUpdate(id,{ activo: false },
+    { returnDocument:'after'}).exec();
+
+    return publicacionModificada;
   }
 
-  async darLike(idPublicacion: string, userId: string) {
-    const publicacion = await this.publicacionModel.findById(idPublicacion);
-    if (!publicacion) {
-      throw new NotFoundException('Publicación no encontrada');
-    }
+  async darLike(publicacionId: string, usuarioId: string) {
+    const publicacionActualizada = await this.publicacionModel.findByIdAndUpdate(publicacionId, {$addToSet: {likes: usuarioId},
+        $inc: { likesCantidad: 1 }}, {returnDocument: 'after'}).populate('autor').exec();
 
-    const yaTieneLike = publicacion.meGusta.some((id) => id.toString() === userId.toString());
-    if (yaTieneLike) {
-      return publicacion;
-    }
-
-    return this.publicacionModel.findByIdAndUpdate(idPublicacion, {$addToSet: { meGusta: userId }, 
-      $inc: {meGustaCount: 1}}, { new: true }).populate('autor', 'username imagen nombre apellido');
+    return publicacionActualizada;
   }
 
-  async sacarLike(idPublicacion: string, userId: string) {
-    const publicacion = await this.publicacionModel.findById(idPublicacion);
-    if (!publicacion) {
-      throw new NotFoundException('publicacion no encontrada');
-    }
+  async sacarLike(publicacionId: string, usuarioId: string) {
+    const publicacionActualizada = await this.publicacionModel.findByIdAndUpdate(publicacionId, {$pull: {likes: usuarioId},
+      $inc: {likesCantidad: -1}},
+      { returnDocument: 'after' }).populate('autor').exec();
 
-    const tieneLike = publicacion.meGusta.some((id) => id.toString() === userId.toString());
-    if (!tieneLike) {
-      return publicacion;
-    }
-
-    return this.publicacionModel.findByIdAndUpdate(idPublicacion, {$pull: { meGusta: userId }, 
-      $inc: { meGustaCount: -1 }},{ new: true }).populate('autor', 'username imagen nombre apellido');
+    return publicacionActualizada;
   }
 
   async eliminarComentario(idPublicacion: string, idComentario: string) {
