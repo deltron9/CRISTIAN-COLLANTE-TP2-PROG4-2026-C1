@@ -14,8 +14,11 @@ export class PublicacionesService {
   publicacionesSignal = signal<IPublicacion[]>([]);
   publicaciones = this.publicacionesSignal.asReadonly();
 
-  listar(limit: number = 5, offset: number = 0, sortBy: 'fecha' | 'likes' = 'fecha', userId?: string): Observable<IPublicacion[]> {
-    let params = new HttpParams().set('limit', limit.toString()).set('offset', offset.toString()).set('sortBy', sortBy);
+  listar(limit: number = 5, offset: number = 0, sortBy: 'createdAt' | 'likesCantidad' = 'createdAt', userId?: string): Observable<IPublicacion[]> {
+    let params = new HttpParams()
+      .set('limit', limit.toString())
+      .set('offset', offset.toString())
+      .set('sortBy', sortBy);
 
     if (userId) {
       params = params.set('userId', userId);
@@ -40,12 +43,13 @@ export class PublicacionesService {
     return this.http.get<IPublicacion>(`${this.url}/${id}`);
   }
 
-  crear(formData: FormData): Observable<IPublicacion> {
+  crear(formData: FormData, imagenPrevisualizada?: string): Observable<IPublicacion> {
     return this.http.post<IPublicacion>(this.url, formData).pipe(
       tap((nuevaPublicacion) => {
-        this.publicacionesSignal.set([nuevaPublicacion, ...this.publicacionesSignal()]);
-      })
-    );
+        if (imagenPrevisualizada) {
+          nuevaPublicacion.imagenUrl = imagenPrevisualizada;
+        }
+        this.publicacionesSignal.set([nuevaPublicacion, ...this.publicacionesSignal()]);}));
   }
 
   eliminar(id: string): Observable<any> {
