@@ -7,5 +7,6 @@ export interface IUsuario {
     imagen?: string;
     fechaNacimiento: string;
     descripcion?: string;
+    perfil: string
 }
 
