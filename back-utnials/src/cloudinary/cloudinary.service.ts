@@ -4,8 +4,8 @@ import { v2 as cloudinary } from 'cloudinary';
 @Injectable()
 export class CloudinaryService {
 
-async subirImagen(file: Express.Multer.File, folderName: string): Promise<string> {
-    
+  async subirImagen(file: Express.Multer.File, folderName: string): Promise<string> {
+      
     cloudinary.config({
         cloud_name: process.env.CLOUD_NAME,
         api_key: process.env.CLOUD_API,
@@ -28,26 +28,33 @@ async subirImagen(file: Express.Multer.File, folderName: string): Promise<string
     const public_id = `IMG_${Date.now()}_archivos`;
 
     return new Promise((resolve, reject) => {
-    const uploader = cloudinary.uploader.upload_stream(
+      const uploader = cloudinary.uploader.upload_stream(
         {
-            folder: folderName,
-            public_id: public_id,
+          folder: folderName,
+          public_id: public_id,
+          analytics: false
         },
         (error, result) => {
-            if (error) return reject(new BadRequestException('Error al procesar en Cloudinary'));
+          if (error) {
+            return reject(new BadRequestException('Error al procesar en Cloudinary'));
+          }
+          
+          if (result && result.secure_url) {
+            let urlLimpia = result.secure_url;
+            if (urlLimpia.includes('?')) {
+              urlLimpia = urlLimpia.split('?')[0];
+            }
+            
+
+            return resolve(urlLimpia);
+          }
+          
+          reject(new BadRequestException('No se pudo recuperar la URL del archivo'));
         }
-    );
+      );
 
-        const resultado = uploader.end(file.buffer);
 
-    resultado.once('finish', () => {
-        
-        const url = cloudinary.url(`${folderName}/${public_id}`, { secure: true });
-        resolve(url);
-        });
-        resultado.once('error', (err) => {
-            reject(new BadRequestException('Error en el flujo de datos del archivo'));
-            });
-        });
-    }
+      uploader.end(file.buffer);
+    });
+  }
 }
