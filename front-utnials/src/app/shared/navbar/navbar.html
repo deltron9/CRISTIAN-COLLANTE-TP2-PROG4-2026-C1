@@ -6,24 +6,24 @@
 
         <div class="perfil-usuario">
             <img [src]="this.auth.usuarioActual()?.imagen" alt="Foto de perfil" class="avatar">
-            <span class="nombre-usuario">&#64;{{ this.auth.usuarioActual()?.username }}</span>
+            <span class="nombre-usuario">{{ this.auth.usuarioActual()?.username }}</span>
         </div>
 
         <ul class="enlaces-verticales">
             <li>
                 <a href="/publicaciones">
-                    <span class="icono"></span> Publicaciones
+                    <span class="icono"></span><i class="ri-home-8-line"> Publicaciones</i>
                 </a>
             </li>
             <li>
-                <a href="/mi-Perfil">
-                    <span class="icono"></span> Mi Perfil
+                <a href="/mi-perfil">
+                    <span class="icono"></span><i class="ri-id-card-line"> Mi Perfil</i>
                 </a>
             </li>
         </ul>
         
         <div class="zona-salir">
-            <button (click)="this.auth.logout()" class="btn-salir">Cerrar sesión</button>
+            <button (click)="this.auth.logout()" class="btn-salir"><i class="ri-logout-box-r-line"> Cerrar sesión</i></button>
         </div>
     </nav>
 } @else {
