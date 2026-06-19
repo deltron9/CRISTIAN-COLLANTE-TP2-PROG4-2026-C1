@@ -1,0 +1,33 @@
+<div class="fb-card publicacion-card">
+
+    <div class="post-cabecera">
+        <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
+        <div class="post-info">
+            <h4>{{ nombreAutor() }}</h4>
+            <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() }}</span>
+        </div>
+
+    @if (puedeEliminar()) {
+        <button class="btn-eliminar-post" (click)="eliminarPublicacion()"><i class="ri-delete-bin-6-line icono-basura"></i></button>
+    }
+    </div>
+
+    <div class="post-contenido">
+        <h5>{{ tituloPost() }}</h5>
+        <p>{{ contenidoPost() }}</p>
+    
+    @if (imagenPost()) {
+        <img [src]="imagenPost()" alt="Imagen adjunta" class="post-imagen-adjunta">
+    }
+    </div>
+
+    <div class="linea-separadora"></div>
+
+    <div class="post-acciones">
+        <button [class.liked]="tieneLike()" (click)="darLike()">
+            <i class="icono-like {{ textButtonLike() }}"></i> 
+            <span class="contador-likes">{{ likesCount() }}</span>
+        </button>
+    </div>
+
+</div>
