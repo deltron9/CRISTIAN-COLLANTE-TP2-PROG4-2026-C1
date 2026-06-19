@@ -1,0 +1,93 @@
+<div class="contenedor-feed-publicaciones">
+  
+  <div class="tarjeta-crear-publicacion">
+    <form [formGroup]="formPublicacion" (ngSubmit)="publicar()">
+      
+      <div class="crear-cabecera-entradas">
+        <img [src]="usuarioLogueado()?.imagen" alt="Avatar" class="avatar-usuario">
+        
+        <div class="contenedor-entradas">
+          <input 
+            type="text" 
+            placeholder="Título de tu publicación..."
+            formControlName="titulo"
+            class="entrada-titulo"
+          />
+          
+          <textarea 
+            placeholder="¿Qué estás pensando?"
+            formControlName="descripcion"
+            rows="2"
+            class="area-contenido"
+          ></textarea>
+        </div>
+      </div>
+
+      @if (imagenPrevisualizada()) {
+        <div class="previsualizacion-imagen">
+          <img [src]="imagenPrevisualizada()" alt="Previsualización">
+          <button type="button" class="boton-quitar-foto" (click)="borrarFoto()"> </button>
+        </div>
+      }
+
+      <div class="linea-separadora"></div>
+      
+      <div class="crear-pie">
+        <label class="boton-adjuntar-foto">
+          📷 Agregar foto
+          <input 
+            type="file" 
+            accept="image/*" 
+            (change)="seleccionarFoto($event)" 
+            style="display: none;"
+          />
+        </label>
+
+        <button 
+          type="submit"
+          class="boton-publicar" 
+          [disabled]="formPublicacion.invalid"
+        >
+          Publicar
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="filtros-publicaciones">
+    <span>Ver Publicaciones:</span>
+    <button 
+      [class.activo]="filtroActual() === 'createdAt'" 
+      (click)="filtroActual.set('createdAt')"> Más recientes
+    </button>
+    <button 
+      [class.activo]="filtroActual() === 'likesCantidad'" 
+      (click)="filtroActual.set('likesCantidad')"> Más populares
+    </button>
+  </div>
+
+  <div class="lista-feed">
+    @for (publi of listaPublicaciones(); track publi._id) {
+      
+<app-publicaciones-card
+  [idPublicacion]="publi._id"
+  [avatarAutor]="publi.autor!.imagen"
+  [nombreAutor]="(publi.autor!.nombre) + ' ' + (publi.autor!.apellido)"
+  [usernameAutor]="publi.autor!.username"
+  [fechaCreacion]="publi.createdAt"
+  [tituloPost]="publi.titulo"
+  [contenidoPost]="publi.descripcion"
+  [imagenPost]="publi.imagenUrl || ''"
+  
+  [textButtonLike]="(publi.likes || []).includes(usuarioLogueado()?._id || '') ? 'ri-heart-fill' : 'ri-heart-line'"
+  
+  [likesArray]="publi.likes || []"
+  [likesCount]="publi.likesCantidad || 0"
+  [autorId]="publi.autor!._id || ''"
+></app-publicaciones-card>
+
+    } @empty {
+      <p class="sin-publicaciones">No hay publicaciones para mostrar. ¡Sé el primero en quejarte de algo!</p>
+    }
+  </div>
