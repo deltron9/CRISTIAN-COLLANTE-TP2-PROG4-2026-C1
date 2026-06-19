@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './shared/navbar/navbar';
 import { Footer } from './shared/footer/footer';
+import { AuthService } from './auth/auth-service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,5 @@ import { Footer } from './shared/footer/footer';
 })
 export class App {
   protected readonly title = signal('utnials');
+  auth = inject(AuthService);
 }

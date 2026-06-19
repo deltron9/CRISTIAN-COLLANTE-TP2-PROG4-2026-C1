@@ -1,9 +1,11 @@
 <header>
     <app-navbar></app-navbar>
 </header>
-<main>
+<main [class.con-barra-lateral]="auth.usuarioActual()">
     <router-outlet />
 </main>
-<footer>
-    <app-footer></app-footer>
-</footer>
+@if (!auth.usuarioActual()) {
+    <footer>
+        <app-footer></app-footer>
+    </footer>
+}
