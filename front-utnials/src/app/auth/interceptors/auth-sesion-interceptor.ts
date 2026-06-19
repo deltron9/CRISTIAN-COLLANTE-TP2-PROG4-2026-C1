@@ -19,6 +19,7 @@ export const authSesionInterceptor: HttpInterceptorFn = (req, next) => {
   return next(reqConCookies).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
+        console.log('error:', error.status);
 
         if (redirectingTo401) {
           return throwError(() => error);
@@ -29,7 +30,7 @@ export const authSesionInterceptor: HttpInterceptorFn = (req, next) => {
         auth.logout();
 
         alert.msjErrorSesion().then(() => {
-          router.navigate(['/login']).then(() => {
+          router.navigate(['auth/login']).then(() => {
             redirectingTo401 = false;
           });
         });
