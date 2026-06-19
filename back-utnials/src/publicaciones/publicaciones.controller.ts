@@ -1,18 +1,31 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards, Req, ForbiddenException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards, Req, ForbiddenException, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { PublicacionesService } from './publicaciones.service';
 import { CreatePublicacioneDto } from './dto/create-publicacione.dto';
 import { JwtGuard } from 'src/auth/guards/jwt/jwt.guard';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 
 @Controller('publicaciones')
 @UseGuards(JwtGuard)
 export class PublicacionesController {
-  constructor(private readonly publicacionesService: PublicacionesService) {}
+  constructor(private readonly publicacionesService: PublicacionesService, private readonly cloudinaryService: CloudinaryService) {}
 
-  @Post()
-  create(@Body() createDto: CreatePublicacioneDto, @Req() req: any) {
+    @Post()
+  @UseInterceptors(FileInterceptor('file')) 
+  async create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createDto: CreatePublicacioneDto, 
+    @Req() req: any
+  ) {
     const autorId = req.user.id;
-    return this.publicacionesService.create(createDto, autorId);
+    let imagenUrl = '';
+
+    if (file) {
+      imagenUrl = await this.cloudinaryService.subirImagen(file, 'publicaciones');
+    }
+
+    return this.publicacionesService.create(createDto, autorId, imagenUrl);
   }
 
   @Get()
