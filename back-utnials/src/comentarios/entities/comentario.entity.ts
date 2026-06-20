@@ -16,7 +16,7 @@ export class Comentario {
     publicacionId!: mongoose.Types.ObjectId;
 
     @Prop({ type: Boolean, default: false })
-    editado!: boolean;
+    modificado!: boolean;
 }
 
 export const ComentarioSchema = SchemaFactory.createForClass(Comentario);

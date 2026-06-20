@@ -96,7 +96,7 @@ export class ComentariosService {
     (comentario as any).estado = 'eliminado';
     await comentario.save();
 
-    await this.publicacionesService.eliminarComentario(comentario.publicacion.toString(), id);
+    await this.publicacionesService.eliminarComentario(comentario.publicacionId.toString(), id);
   }
 
   async contarPorPublicacion(publicacionId: string): Promise<number> {
