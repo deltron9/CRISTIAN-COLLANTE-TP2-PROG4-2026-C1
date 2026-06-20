@@ -6,7 +6,4 @@ export class CreateComentarioDto {
     @MinLength(1, { message: 'El comentario debe tener al menos 1 carácter' })
     @MaxLength(500, { message: 'El comentario no puede superar los 500 caracteres' })
     texto!: string;
-    @IsString()
-    @IsNotEmpty()
-    publicacionId!: string;
 }
