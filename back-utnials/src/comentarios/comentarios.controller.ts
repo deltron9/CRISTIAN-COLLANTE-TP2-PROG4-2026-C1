@@ -40,7 +40,7 @@ export class ComentariosController {
 
   @Delete(':id')
   eliminar(@Param('id') id: string, @Req() req: any) {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const userRole = req.user.perfil;
     return this.comentariosService.eliminar(id, userId, userRole);
   }
