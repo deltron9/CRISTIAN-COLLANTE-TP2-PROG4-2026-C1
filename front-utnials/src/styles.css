@@ -7,6 +7,19 @@
     --color-negro: black;
     --color-blanco: white;
     --color-gris: gray;
+    
+    --fondo-body: linear-gradient(to bottom, #ffffff 0%, #ffffff 40%, #ffa6d1 75%, #ff409f 100%);
+    --color-texto-principal: #1e293b;
+}
+
+body.dark-theme {
+    --fondo-btn: rgb(5, 38, 100);
+    --color-borde-btn: #475569;
+    --color-primario: #1a1a1a;
+    --color-secundario: #334155;
+    --color-blanco: #f8fafc;
+    --fondo-body: linear-gradient(to bottom, #111516 50%, #2a1027  80%, #591e53 90%, #b53fa7 100%);
+    --color-texto-principal: #f1f5f9;
 }
 
 html, body {
@@ -17,6 +30,10 @@ html, body {
     overflow-x: hidden; 
     display: flex;
     flex-direction: column;
+    background-image: var(--fondo-body);
+    background-attachment: fixed;
+    color: var(--color-texto-principal);
+    transition: background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .error-mensaje {
@@ -37,6 +54,16 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
+    transition: padding 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body:has(.barra-lateral) main {
+    padding-left: 180px;
+}
+
+body:has(.barra-lateral) .contenedor-feed-publicaciones {
+    width: 100%;
 }
 
 footer {
