@@ -4,19 +4,19 @@ import { Usuario } from 'src/usuarios/entities/usuario.entity';
 
 export type ComentarioDocument = mongoose.HydratedDocument<Comentario>;
 
-@Schema({ timestamps: true })
+@Schema({ collection: 'comentarios_utnials', timestamps: true })
 export class Comentario {
-    @Prop({ required: true })
-    texto: string;
+    @Prop({ required: true, maxlength: 500 })
+    texto!: string;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Usuario.name, required: true })
-    autor: Usuario;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true })
+    autor!: Usuario;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Publicacion', required: true })
-    publicacion: string;
+    publicacionId!: mongoose.Types.ObjectId;
 
-    @Prop({ default: false })
-    modificado: boolean;
+    @Prop({ type: Boolean, default: false })
+    editado!: boolean;
 }
 
 export const ComentarioSchema = SchemaFactory.createForClass(Comentario);
