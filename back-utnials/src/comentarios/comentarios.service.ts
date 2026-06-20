@@ -25,7 +25,7 @@ export class ComentariosService {
     const comentarioGuardado = await nuevoComentario.save();
     await this.publicacionesService.agregarComentario(publicacionId, comentarioGuardado._id.toString());
 
-    const comentarioPopulado = await this.comentarioModel.findById(comentarioGuardado._id).populate('autor', 'username nombre apellido imagen').exec();
+    const comentarioPopulado = await this.comentarioModel.findById(comentarioGuardado._id).populate('autor', 'username nombre apellido imagen').lean().exec();
 
     if (!comentarioPopulado) {
       throw new NotFoundException('error al intentar comentar');
@@ -34,8 +34,8 @@ export class ComentariosService {
     return comentarioPopulado;
   }
 
-  async listarPorPublicacion(publicacionId: string,limit: number = 3, offset: number = 0,): Promise<{ comentarios: Comentario[]; total: number }> {
-    const queryFiltrada = { publicacion: publicacionId, estado: 'activo'};
+  async listarPorPublicacion(publicacionId: string, limit: number = 3, offset: number = 0): Promise<{ comentarios: Comentario[]; total: number }> {
+    const queryFiltrada = { publicacion: publicacionId, estado: 'activo' };
 
     const comentarios = await this.comentarioModel.find(queryFiltrada).sort({createdAt: -1}).skip(offset)
       .limit(limit).populate('autor', 'username nombre apellido imagen').exec();
@@ -96,7 +96,7 @@ export class ComentariosService {
     (comentario as any).estado = 'eliminado';
     await comentario.save();
 
-    await this.publicacionesService.eliminarComentario(comentario.publicacionId.toString(), id);
+    await this.publicacionesService.eliminarComentario(comentario.publicacion.toString(), id);
   }
 
   async contarPorPublicacion(publicacionId: string): Promise<number> {
