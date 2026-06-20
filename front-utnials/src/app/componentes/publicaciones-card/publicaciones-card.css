@@ -1,14 +1,27 @@
+:host-context(body.dark-theme) {
+    --feed-bg: #1e2627;
+    --feed-borde: #5ce1e6;
+    --feed-sombra: 3px 4px 0px 1px #b53fa7;
+    --feed-texto-principal: #ffffff;
+    --feed-texto-mutado: #627d80;
+    --feed-btn-bg: #b53fa7;
+    --feed-btn-color: #ffffff;
+    --feed-btn-sombra: 3px 3px 0px 0px #5ce1e6;
+    --feed-btn-sombra-active: 1px 1px 0px 0px #5ce1e6;
+}
+
 .fb-card.publicacion-card {
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+    background-color: var(--feed-bg, #EDDCD9);
+    border: 2px solid var(--feed-borde, #264143);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--feed-sombra, 3px 4px 0px 1px #E99F4C);
     max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
     box-sizing: border-box;
+    transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .post-cabecera {
@@ -23,8 +36,9 @@
     height: 44px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid #cbd5e1;
+    border: 2px solid var(--feed-borde, #264143);
     margin-right: 12px;
+    transition: border-color 0.8s ease;
 }
 
 .post-info {
@@ -34,15 +48,19 @@
 
 .post-info h4 {
     margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #0f172a;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--feed-texto-principal, #264143);
+    transition: color 0.8s ease;
 }
 
 .post-info .post-fecha {
     font-size: 0.85rem;
-    color: #64748b;
+    font-weight: 700;
+    color: var(--feed-texto-mutado, #264143);
+    opacity: 0.8;
     margin-top: 2px;
+    transition: color 0.8s ease;
 }
 
 .btn-eliminar-post {
@@ -51,23 +69,17 @@
     right: 0;
     background: none;
     border: none;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    color: var(--feed-texto-principal, #264143);
     cursor: pointer;
     padding: 6px;
     border-radius: 50%;
-    transition: background-color 0.2s ease, transform 0.1s ease, color 0.2s ease; 
+    transition: color 0.3s ease, transform 0.1s ease; 
 }
 
 .btn-eliminar-post:hover {
-    transform: scale(1.05);
-}
-
-.btn-eliminar-post:hover .icono-basura {
-    color: #ff0000;
-}
-
-.btn-eliminar-post:active {
-    transform: scale(0.95);
+    transform: scale(1.1);
+    color: #DE5499;
 }
 
 .post-contenido {
@@ -76,17 +88,19 @@
 
 .post-contenido h5 {
     margin: 0 0 8px 0;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #1e293b;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--feed-texto-principal, #264143);
+    transition: color 0.8s ease;
 }
 
 .post-contenido p {
     margin: 0 0 12px 0;
     font-size: 0.95rem;
-    color: #334155;
+    color: var(--feed-texto-principal, #264143);
     line-height: 1.5;
     white-space: pre-wrap;
+    transition: color 0.8s ease;
 }
 
 .post-imagen-adjunta {
@@ -94,14 +108,16 @@
     max-height: 450px;
     object-fit: contain;
     border-radius: 8px;
-    border: 1px solid #f1f5f9;
+    border: 2px solid var(--feed-borde, #264143);
     margin-top: 4px;
+    transition: border-color 0.8s ease;
 }
 
 .linea-separadora {
-    height: 1px;
-    background-color: #f1f5f9;
+    height: 2px;
+    background-color: var(--feed-borde, #264143);
     margin: 12px 0;
+    transition: background-color 0.8s ease;
 }
 
 .post-acciones {
@@ -113,54 +129,41 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: transparent;
-    border: none;
-    color: #000000;
-    padding: 8px 12px;
+    background-color: var(--feed-btn-bg, #DE5499);
+    border: 2px solid var(--feed-borde, #264143);
+    color: var(--feed-btn-color, #ffffff);
+    box-shadow: var(--feed-btn-sombra, 3px 3px 0px 0px #E99F4C);
+    padding: 10px 20px;
     font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 20px;
+    font-weight: 800;
+    border-radius: 10px;
     cursor: pointer;
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.1s ease;
 }
 
 .post-acciones button i {
-    font-size: 1.3rem;
-    vertical-align: middle;
-    transition: transform 0.2s ease;
+    font-size: 1.2rem;
 }
 
-.post-acciones button:not(.liked):hover {
-    background-color: transparent;
-    color: #8a5858; 
-    transform: scale(1.1); 
+.post-acciones button:active {
+    transform: translateY(2px);
+    box-shadow: var(--feed-btn-sombra-active, 1px 1px 0px 0px #E99F4C);
 }
 
 .post-acciones button.liked {
-    background-color: transparent;
-    color: #ef4444; 
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+    box-shadow: var(--feed-btn-sombra-active, 2px 2px 0px 0px var(--feed-borde)) !important;
     animation: latido 0.3s ease-in-out; 
 }
 
-.post-acciones button.liked:hover {
-    background-color: transparent;
-    color: #dc2626;
-    transform: scale(1.1);
-}
-
 @keyframes latido {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.25); 
-    }
-    100% {
-        transform: scale(1); 
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
 .contador-likes {
-    font-weight: 500;
-    font-size: 0.85rem;
+    font-weight: 800;
+    font-size: 0.9rem;
 }
