@@ -13,10 +13,13 @@ export class Comentario {
     autor!: Usuario;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Publicacion', required: true })
-    publicacionId!: mongoose.Types.ObjectId;
+    publicacion!: mongoose.Types.ObjectId;
 
     @Prop({ type: Boolean, default: false })
     modificado!: boolean;
+
+    @Prop({ type: String, default: 'activo' })
+    estado!: string;
 }
 
 export const ComentarioSchema = SchemaFactory.createForClass(Comentario);
