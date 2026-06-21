@@ -23,8 +23,6 @@
         }
     </div>
 
-    <div class="linea-separadora"></div>
-
     <div class="post-acciones">
         <button [class.liked]="tieneLike()" (click)="$event.stopPropagation(); darLike()">
             <i class="icono-like {{ textButtonLike() }}"></i> 
@@ -36,8 +34,6 @@
             <span class="contador-comentarios">{{ totalComentariosCount() }}</span>
         </button>
     </div>
-
-    <div class="linea-separadora"></div>
 
     <div class="seccion-comentar-rapido" (click)="$event.stopPropagation()">
         <input type="text" 
@@ -77,8 +73,6 @@
                 @if (imagenPost()) {
                     <img [src]="imagenPost()" alt="Imagen adjunta completa" class="modal-imagen-viva">
                 }
-
-                <div class="linea-separadora"></div>
 
                 <div class="seccion-escribir-comentario">
                     <textarea [ngModel]="nuevoComentarioTexto()" 
@@ -133,7 +127,7 @@
 
                                     @if (coment.autor._id === usuarioLogueado()?._id) {
                                         <button class="btn-editar-comentario" (click)="comentarioEnEdicionId.set(coment._id)">
-                                            <i class="ri-edit-box-line"></i> Editar
+                                            <i class="ri-edit-box-line"></i> Editar [cite: 110]
                                         </button>
                                     }
                                 }
