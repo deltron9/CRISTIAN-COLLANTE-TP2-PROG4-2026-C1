@@ -167,3 +167,195 @@
     font-weight: 800;
     font-size: 0.9rem;
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-contenedor {
+    background: var(--feed-bg, #EDDCD9);
+    border: 3px solid var(--feed-borde, #264143);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 650px;
+    max-height: 85vh;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: var(--feed-sombra, 5px 6px 0px 1px #E99F4C);
+}
+
+.modal-contenido-scroll {
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-top: 12px;
+}
+
+.btn-cerrar-modal {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: var(--feed-btn-bg, #DE5499);
+    border: 2px solid var(--feed-borde, #264143);
+    color: white;
+    padding: 6px 14px;
+    font-weight: 800;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px var(--feed-borde);
+}
+
+.seccion-escribir-comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.area-comentario-modal {
+    width: 100%;
+    border: 2px solid var(--feed-borde, #264143);
+    border-radius: 10px;
+    padding: 12px;
+    background: var(--feed-bg);
+    color: var(--feed-texto-principal);
+    font-family: inherit;
+    font-weight: 600;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.boton-publicar-comentario, .btn-guardar-edicion {
+    align-self: flex-end;
+    background: #5ce1e6;
+    border: 2px solid var(--feed-borde, #264143);
+    color: #264143;
+    padding: 8px 18px;
+    font-weight: 800;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px var(--feed-borde);
+}
+
+.contenedor-lista-comentarios h3 {
+    font-weight: 900;
+    color: var(--feed-texto-principal);
+    margin-bottom: 16px;
+}
+
+.comentario-item-brutal {
+    display: flex;
+    gap: 12px;
+    border: 2px solid var(--feed-borde);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.avatar-comentario {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--feed-borde);
+}
+
+.cuerpo-comentario {
+    flex: 1;
+}
+
+.cabecera-comentario {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+}
+
+.coment-username {
+    font-size: 0.8rem;
+    color: var(--feed-texto-mutated);
+    opacity: 0.7;
+}
+
+.btn-eliminar-comentario-mini {
+    position: absolute;
+    right: 0;
+    background: none;
+    border: none;
+    color: #DE5499;
+    cursor: pointer;
+}
+
+.texto-comentario-contenido {
+    margin: 6px 0;
+    font-size: 0.9rem;
+    color: var(--feed-texto-principal);
+}
+
+.indicador-editado {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    font-style: italic;
+    margin-left: 4px;
+}
+
+.btn-editar-comentario {
+    background: none;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--feed-texto-principal);
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.8;
+}
+
+.btn-editar-comentario:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.botones-editor {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.btn-cancelar-edicion {
+    background: none;
+    border: 2px solid var(--feed-borde);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+    color: var(--feed-texto-principal);
+}
+
+.btn-cargar-mas-comentarios {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 2px dashed var(--feed-borde);
+    border-radius: 10px;
+    font-weight: 800;
+    color: var(--feed-texto-principal);
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-cargar-mas-comentarios:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+

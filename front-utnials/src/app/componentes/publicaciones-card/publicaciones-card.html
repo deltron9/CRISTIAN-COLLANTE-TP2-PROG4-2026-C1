@@ -1,4 +1,4 @@
-<div class="fb-card publicacion-card">
+<div class="fb-card publicacion-card" (click)="abrirModal()">
 
     <div class="post-cabecera">
         <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
@@ -7,27 +7,151 @@
             <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() }}</span>
         </div>
 
-    @if (puedeEliminar()) {
-        <button class="btn-eliminar-post" (click)="eliminarPublicacion()"><i class="ri-delete-bin-6-line icono-basura"></i></button>
-    }
+        @if (puedeEliminarPublicacion()) {
+            <button class="btn-eliminar-post" (click)="$event.stopPropagation(); eliminarPublicacion()">
+                <i class="ri-delete-bin-6-line icono-basura"></i>
+            </button>
+        }
     </div>
 
     <div class="post-contenido">
         <h5>{{ tituloPost() }}</h5>
         <p>{{ contenidoPost() }}</p>
     
-    @if (imagenPost()) {
-        <img [src]="imagenPost()" alt="Imagen adjunta" class="post-imagen-adjunta">
-    }
+        @if (imagenPost()) {
+            <img [src]="imagenPost()" alt="Imagen adjunta" class="post-imagen-adjunta">
+        }
     </div>
 
     <div class="linea-separadora"></div>
 
     <div class="post-acciones">
-        <button [class.liked]="tieneLike()" (click)="darLike()">
+        <button [class.liked]="tieneLike()" (click)="$event.stopPropagation(); darLike()">
             <i class="icono-like {{ textButtonLike() }}"></i> 
             <span class="contador-likes">{{ likesCount() }}</span>
+        </button>
+
+        <button class="btn-accion-comentarios">
+            <i class="ri-chat-3-line"></i>
+            <span class="contador-comentarios">{{ totalComentariosCount() }}</span>
+        </button>
+    </div>
+
+    <div class="linea-separadora"></div>
+
+    <div class="seccion-comentar-rapido" (click)="$event.stopPropagation()">
+        <input type="text" 
+               [ngModel]="nuevoComentarioTexto()" 
+               (ngModelChange)="nuevoComentarioTexto.set($event)"
+               placeholder="Deja tu comentario" 
+               class="input-comentario-rapido"
+               (keyup.enter)="agregarComentario()">
+        
+        <button class="btn-enviar-rapido" (click)="agregarComentario()">
+            <i class="ri-send-plane-2-line"></i>
         </button>
     </div>
 
 </div>
+
+@if (modalAbierto()) {
+    <div class="modal-overlay" (click)="cerrarModal()">
+        <div class="modal-contenedor" (click)="$event.stopPropagation()">
+            
+            <button class="btn-cerrar-modal" (click)="cerrarModal()">
+                <i class="ri-close-line"></i>
+            </button>
+
+            <div class="modal-cabecera">
+                <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
+                <div class="post-info">
+                    <h4>{{ nombreAutor() }}</h4>
+                    <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() }}</span>
+                </div>
+            </div>
+
+            <div class="modal-contenido-scroll">
+                <h5>{{ tituloPost() }}</h5>
+                <p class="modal-texto">{{ contenidoPost() }}</p>
+                
+                @if (imagenPost()) {
+                    <img [src]="imagenPost()" alt="Imagen adjunta completa" class="modal-imagen-viva">
+                }
+
+                <div class="linea-separadora"></div>
+
+                <div class="seccion-escribir-comentario">
+                    <textarea [ngModel]="nuevoComentarioTexto()" 
+                              (ngModelChange)="nuevoComentarioTexto.set($event)"
+                              placeholder="deja un comentario" 
+                              class="area-comentario-modal" 
+                              rows="2">
+                    </textarea>
+                    <button class="boton-publicar-comentario" (click)="agregarComentario()">
+                        <i class="ri-send-plane-2-fill"></i>
+                    </button>
+                </div>
+
+                <div class="contenedor-lista-comentarios">
+                    <h3>Comentarios ({{ totalComentariosCount() }})</h3>
+                    
+                    @for (coment of listaComentarios(); track coment._id) {
+                        <div class="comentario-item-brutal">
+                            <img [src]="coment.autor.imagen" class="avatar-comentario">
+                            
+                            <div class="cuerpo-comentario">
+                                <div class="cabecera-comentario">
+                                    <strong>{{ coment.autor.nombre }} {{ coment.autor.apellido }}</strong>
+                                    <span class="coment-username">&#64;{{ coment.autor.username }}</span>
+                                    
+                                    @if (coment.autor._id === usuarioLogueado()?._id || esAdministrador()) {
+                                        <button class="btn-eliminar-comentario-mini" (click)="eliminarComentario(coment._id)">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                    }
+                                </div>
+
+                                @if (comentarioEnEdicionId() === coment._id) {
+                                    <div class="editor-comentario">
+                                        <textarea #txtEditado class="area-comentario-modal">{{ coment.texto }}</textarea>
+                                        <div class="botones-editor">
+                                            <button class="btn-guardar-edicion" (click)="guardarEdicion(coment._id, txtEditado.value)">
+                                                Guardar
+                                            </button>
+                                            <button class="btn-cancelar-edicion" (click)="comentarioEnEdicionId.set(null)">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                } @else {
+                                    <p class="texto-comentario-contenido">
+                                        {{ coment.texto }}
+                                        @if (coment.modificado) {
+                                            <span class="indicador-editado">(Editado)</span>
+                                        }
+                                    </p>
+
+                                    @if (coment.autor._id === usuarioLogueado()?._id) {
+                                        <button class="btn-editar-comentario" (click)="comentarioEnEdicionId.set(coment._id)">
+                                            <i class="ri-edit-box-line"></i> Editar
+                                        </button>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    } @empty {
+                        <p class="comentarios-vacios">Sin comentarios.</p>
+                    }
+
+                    @if (hayMasComentarios()) {
+                        <button class="btn-cargar-mas-comentarios" (click)="cargarMasComentarios()">
+                            Cargar más comentarios
+                        </button>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
