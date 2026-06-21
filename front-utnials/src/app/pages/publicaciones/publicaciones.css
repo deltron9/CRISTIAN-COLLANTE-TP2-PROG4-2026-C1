@@ -38,16 +38,6 @@
     gap: 12px;
 }
 
-.avatar-usuario {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--feed-borde, #264143);
-    flex-shrink: 0;
-    transition: border-color 0.8s ease;
-}
-
 .contenedor-entradas {
     flex-grow: 1;
     display: flex;
@@ -94,14 +84,24 @@
     transition: color 0.8s ease;
 }
 
+.crear-pie {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+    gap: 16px;
+}
+
 .previsualizacion-imagen {
     position: relative;
-    margin-top: 16px;
-    border-radius: 8px;
+    margin-top: 0; 
+    width: 80px;               
+    height: 80px;              
+    border-radius: 10px;       
     overflow: hidden;
-    max-height: 300px;
     border: 2px solid var(--feed-borde, #264143);
-    transition: border-color 0.8s ease;
+    box-shadow: var(--feed-btn-sombra, 3px 3px 0px 0px #E99F4C); 
+    transition: border-color 0.8s ease, box-shadow 0.8s ease;
 }
 
 .previsualizacion-imagen img {
@@ -112,20 +112,25 @@
 
 .boton-quitar-foto {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: var(--feed-borde, #264143);
+    top: 4px;
+    right: 4px;
+    background-color: #264143;
     color: #ffffff;
     border: none;
-    padding: 6px 8px;
+    width: 20px;
+    height: 20px;
+    padding: 0;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background-color 0.2s, color 0.2s;
 }
 
 .boton-quitar-foto:hover {
-    background-color: #DE5499;
+    background-color: #ff0000;
 }
 
 .linea-separadora {
@@ -135,44 +140,40 @@
     transition: background-color 0.8s ease;
 }
 
-.crear-pie {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.boton-adjuntar-foto {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.9rem;
-    font-weight: 800;
-    color: var(--feed-texto-principal, #264143);
-    cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: color 0.8s ease;
-}
-
+.boton-adjuntar-foto,
 .boton-publicar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     font-family: inherit;
     font-size: 15px;
     font-weight: 800;
     padding: 12px 24px;
     cursor: pointer;
     border-radius: 10px;
-    background-color: var(--feed-btn-bg, #DE5499);
     border: 2px solid var(--feed-borde, #264143);
-    color: var(--feed-btn-color, #ffffff);
     box-shadow: var(--feed-btn-sombra, 3px 3px 0px 0px #E99F4C);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 1px;
 }
 
+.boton-adjuntar-foto {
+    background-color: transparent;
+    color: var(--feed-texto-principal, #264143);
+}
+
+.boton-publicar {
+    background-color: var(--feed-btn-bg, #DE5499);
+    color: var(--feed-btn-color, #ffffff);
+}
+
+.boton-adjuntar-foto:hover,
 .boton-publicar:hover:not(:disabled) {
     opacity: .9;
 }
 
-.boton-publicar:active:not(:disabled) {
+.boton-adjuntar-foto:active{
     transform: translateY(2px);
     box-shadow: var(--feed-btn-sombra-active, 1px 1px 0px 0px #E99F4C);
 }

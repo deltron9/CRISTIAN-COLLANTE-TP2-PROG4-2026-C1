@@ -3,9 +3,7 @@
   <div class="tarjeta-crear-publicacion">
     <form [formGroup]="formPublicacion" (ngSubmit)="publicar()">
       
-      <div class="crear-cabecera-entradas">
-        <img [src]="usuarioLogueado()?.imagen" alt="Avatar" class="avatar-usuario">
-        
+      <div class="crear-cabecera-entradas">        
         <div class="contenedor-entradas">
           <input 
             type="text" 
@@ -22,26 +20,25 @@
           ></textarea>
         </div>
       </div>
-
-      @if (imagenPrevisualizada()) {
-        <div class="previsualizacion-imagen">
-          <img [src]="imagenPrevisualizada()" alt="Previsualización">
-          <button type="button" class="boton-quitar-foto" (click)="borrarFoto()"> </button>
-        </div>
-      }
-
-      <div class="linea-separadora"></div>
       
       <div class="crear-pie">
-        <label class="boton-adjuntar-foto">
-          📷 Agregar foto
-          <input 
-            type="file" 
-            accept="image/*" 
-            (change)="seleccionarFoto($event)" 
-            style="display: none;"
-          />
-        </label>
+        
+        @if (!imagenPrevisualizada()) {
+          <label class="boton-adjuntar-foto">
+            <i class="ri-camera-3-fill"> Agregar Imagen</i>
+            <input 
+              type="file" 
+              accept="image/*" 
+              (change)="seleccionarFoto($event)" 
+              style="display: none;"
+            />
+          </label>
+        } @else {
+          <div class="previsualizacion-imagen">
+            <img [src]="imagenPrevisualizada()" alt="Previsualización">
+            <button type="button" class="boton-quitar-foto" (click)="borrarFoto()">X</button>
+          </div>
+        }
 
         <button 
           type="submit"
@@ -69,25 +66,23 @@
 
   <div class="lista-feed">
     @for (publi of listaPublicaciones(); track publi._id) {
-      
-<app-publicaciones-card
-  [idPublicacion]="publi._id"
-  [avatarAutor]="publi.autor!.imagen"
-  [nombreAutor]="(publi.autor!.nombre) + ' ' + (publi.autor!.apellido)"
-  [usernameAutor]="publi.autor!.username"
-  [fechaCreacion]="publi.createdAt"
-  [tituloPost]="publi.titulo"
-  [contenidoPost]="publi.descripcion"
-  [imagenPost]="publi.imagenUrl || ''"
-  
-  [textButtonLike]="(publi.likes || []).includes(usuarioLogueado()?._id || '') ? 'ri-heart-fill' : 'ri-heart-line'"
-  
-  [likesArray]="publi.likes || []"
-  [likesCount]="publi.likesCantidad || 0"
-  [autorId]="publi.autor!._id || ''"
-></app-publicaciones-card>
-
+      <app-publicaciones-card
+        [idPublicacion]="publi._id"
+        [avatarAutor]="publi.autor!.imagen"
+        [nombreAutor]="(publi.autor!.nombre) + ' ' + (publi.autor!.apellido)"
+        [usernameAutor]="publi.autor!.username"
+        [fechaCreacion]="publi.createdAt"
+        [tituloPost]="publi.titulo"
+        [contenidoPost]="publi.descripcion"
+        [imagenPost]="publi.imagenUrl || ''"
+        [textButtonLike]="(publi.likes || []).includes(usuarioLogueado()?._id || '') ? 'ri-heart-fill' : 'ri-heart-line'"
+        [likesArray]="publi.likes || []"
+        [likesCount]="publi.likesCantidad || 0"
+        [autorId]="publi.autor!._id || ''"
+      ></app-publicaciones-card>
     } @empty {
-      <p class="sin-publicaciones">No hay publicaciones para mostrar. ¡Sé el primero en quejarte de algo!</p>
+      <p class="sin-publicaciones">No hay publicaciones para mostrar.</p>
     }
   </div>
+
+</div>
