@@ -12,7 +12,7 @@ import { IPublicacion } from '../../services/publicaciones-service/ipublicacion'
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.css'
 })
-export class Perfil implements OnInit {
+export class MiPerfil implements OnInit {
   publis = inject(PublicacionesService);
   auth = inject(AuthService);
 

@@ -1,1 +1,66 @@
-<p>mi-perfil works!</p>
+<div class="contenedor-perfil-fullwidth">
+  
+  <div class="columna-perfil-izquierda">
+    
+    <div class="seccion-perfil-presentacion">
+      <img [src]="usuarioLogueado()?.imagen" alt="Avatar" class="perfil-avatar-pantalla">
+      <div class="perfil-datos-identidad">
+        <h2>{{ usuarioLogueado()?.nombre }} {{ usuarioLogueado()?.apellido }}</h2>
+        <span class="perfil-username-pantalla">@{{ usuarioLogueado()?.username }}</span>
+      </div>
+    </div>
+
+    <h3 class="subtitulo-brutal">Biografía:</h3>
+    <div class="perfil-bloque-descripcion">
+      <p>{{ usuarioLogueado()?.descripcion || 'Sin descripción en el perfil.' }}</p>
+    </div>
+
+    <h3 class="subtitulo-brutal">Información</h3>
+    <div class="perfil-lista-datos-editorial">
+      <div class="fila-dato-editorial">
+        <span class="dato-etiqueta">Email:</span>
+        <span class="dato-valor-texto">{{ usuarioLogueado()?.email }}</span>
+      </div>
+
+      <div class="fila-dato-editorial">
+        <span class="dato-etiqueta">Fecha de Nacimiento:</span>
+        <span class="dato-valor-texto">{{ usuarioLogueado()?.fechaNacimiento }}</span>
+      </div>
+
+      <div class="fila-dato-editorial">
+        <span class="dato-etiqueta">Rango:</span>
+        <span class="dato-valor-texto badge-rol-brutal">{{ usuarioLogueado()?.perfil }}</span>
+      </div>
+    </div>
+
+  </div>
+
+ <div class="columna-publicaciones-derecha">
+    
+    <h3 class="titulo-feed-perfil">últimas 3 publicaciones</h3>
+
+    <div class="seccion-mis-publicaciones">
+      <div class="lista-feed-perfil">
+        @for (publi of misPublicaciones(); track publi._id) {
+          <app-publicaciones-card
+            [idPublicacion]="publi._id"
+            [avatarAutor]="publi.autor!.imagen"
+            [nombreAutor]="(publi.autor!.nombre) + ' ' + (publi.autor!.apellido)"
+            [usernameAutor]="publi.autor!.username"
+            [fechaCreacion]="publi.createdAt"
+            [tituloPost]="publi.titulo"
+            [contenidoPost]="publi.descripcion"
+            [imagenPost]="publi.imagenUrl || ''"
+            [textButtonLike]="(publi.likes || []).includes(usuarioLogueado()?._id || '') ? 'ri-heart-fill' : 'ri-heart-line'"
+            [likesArray]="publi.likes || []"
+            [likesCount]="publi.likesCantidad"
+            [autorId]="publi.autor!._id"
+          ></app-publicaciones-card>
+        } @empty {
+          <p class="sin-publicaciones-perfil">Todavía no realizaste ninguna publicación en el feed.</p>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>
