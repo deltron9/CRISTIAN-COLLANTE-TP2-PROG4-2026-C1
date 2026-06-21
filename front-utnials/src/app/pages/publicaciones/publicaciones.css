@@ -24,6 +24,8 @@
     border: 2px solid var(--feed-borde, #264143);
     border-radius: 20px;
     padding: 24px;
+    max-width: 650px;
+    min-width: 650px;
     margin-bottom: 24px;
     box-shadow: var(--feed-sombra, 3px 4px 0px 1px #E99F4C);
     box-sizing: border-box;
