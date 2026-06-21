@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { PublicacionesService } from '../../services/publicaciones-service/publicaciones-service';
@@ -12,7 +12,7 @@ import { PublicacionesCard } from '../../componentes/publicaciones-card/publicac
   templateUrl: './publicaciones.html',
   styleUrl: './publicaciones.css'
 })
-export class Publicaciones implements OnInit {
+export class Publicaciones{
   publis = inject(PublicacionesService);
   auth = inject(AuthService);
   alert = inject(AlertService);
@@ -20,6 +20,9 @@ export class Publicaciones implements OnInit {
   filtroActual = signal<'createdAt' | 'likesCantidad'>('createdAt');
   fotoSeleccionada = signal<File | null>(null);
   imagenPrevisualizada = signal<string>('');
+  paginaActual = signal<number>(1);
+  limitePorPagina = 5;
+  hayMasPublicaciones = signal<boolean>(true);
 
   formPublicacion = new FormGroup({
     titulo: new FormControl('', {
@@ -35,14 +38,39 @@ export class Publicaciones implements OnInit {
   usuarioLogueado = this.auth.usuarioActual;
   listaPublicaciones = this.publis.publicaciones;
 
-  efectoFiltro = effect(() => {this.cargarPublicaciones();});
-
-  ngOnInit(): void {
-    
-  }
+  efectoFiltro = effect(() => {
+    this.filtroActual();
+    this.reseterPaginacion();
+  });
 
   cargarPublicaciones() {
-    this.publis.listar(10, 0, this.filtroActual()).subscribe({});
+    const page = this.paginaActual();
+    const limit = this.limitePorPagina;
+    const offset = (page - 1) * limit;
+
+    this.publis.listar(limit, offset, this.filtroActual()).subscribe({
+      next: (res: any) => {
+        if (res.length < limit) {
+          this.hayMasPublicaciones.set(false);
+        } else {
+          this.hayMasPublicaciones.set(true);
+        }
+      },
+      error: (err) => {
+        console.error('Error al paginar:', err);
+      }
+    });
+  }
+
+  cargarMas() {
+    this.paginaActual.update(p => p + 1);
+    this.cargarPublicaciones();
+  }
+
+  reseterPaginacion() {
+    this.paginaActual.set(1);
+    this.hayMasPublicaciones.set(true);
+    this.cargarPublicaciones();
   }
 
   seleccionarFoto(event: Event) {
@@ -87,6 +115,7 @@ export class Publicaciones implements OnInit {
       next: () => {
         this.formPublicacion.reset();
         this.borrarFoto();
+        this.reseterPaginacion();
       },
       error: (err: any) => this.alert.msjError(err.error?.message || 'Error al publicar.')
     });

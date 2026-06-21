@@ -229,3 +229,29 @@
     border-radius: 20px;
     transition: all 0.8s ease;
 }
+
+.btn-cargar-mas-publicaciones {
+    width: 100%;
+    max-width: 650px;
+    padding: 16px;
+    background-color: transparent;
+    border: 2px dashed var(--feed-borde, #264143);
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--feed-texto-principal, #264143);
+    cursor: pointer;
+    margin-top: 12px;
+    margin-bottom: 30px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-sizing: border-box;
+}
+
+.btn-cargar-mas-publicaciones:hover {
+    background-color: rgba(92, 225, 230, 0.1);
+}
+
+.btn-cargar-mas-publicaciones:active {
+    transform: scale(0.98);
+}
