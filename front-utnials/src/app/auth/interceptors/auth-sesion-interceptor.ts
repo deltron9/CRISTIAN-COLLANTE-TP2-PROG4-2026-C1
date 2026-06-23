@@ -6,7 +6,7 @@ import { AuthService } from '../auth-service';
 import { AlertService } from '../../services/alert-service';
 import { catchError, throwError } from 'rxjs';
 
-let redirectingTo401 = false;
+let flagError401 = false;
 
 export const authSesionInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
@@ -14,24 +14,26 @@ export const authSesionInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
   const alert = inject(AlertService);
 
-  const reqConCookies = req.clone({withCredentials: true});
+  const reqConCookies = req.clone({ withCredentials: true });
 
   return next(reqConCookies).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
-        console.log('error:', error.status);
+        console.log('error 401 caporal');
 
-        if (redirectingTo401) {
+        if (flagError401) {
           return throwError(() => error);
         }
-        redirectingTo401 = true;
-
+        
+        flagError401 = true;
         timer.limpiarTimers();
         auth.logout();
 
-        alert.msjErrorSesion().then(() => {
-          router.navigate(['auth/login']).then(() => {
-            redirectingTo401 = false;
+        router.navigate(['auth/login']).then(() => {
+          alert.msjErrorSesion().then(() => {
+            flagError401 = false;
+          }).catch(() => {
+            flagError401 = false;
           });
         });
       }
