@@ -10,8 +10,9 @@ export const RutasParaLogeadosGuard: CanActivateFn = (route, state) => {
   
   const pathActual = route.routeConfig?.path;
   const esRutaSinSesion = pathActual === 'login' || pathActual === 'register';
+  const pantallaCargando = pathActual === 'pantalla-cargando';
 
-  if (esRutaSinSesion) {
+  if (esRutaSinSesion || pantallaCargando) {
     if (usuarioLogeado) {
       router.navigate(['/publicaciones']);
       return false;
