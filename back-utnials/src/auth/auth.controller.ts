@@ -39,7 +39,7 @@ export class AuthController {
 
     response.cookie('autorizacion', token, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       secure: true,
       expires: new Date(Date.now() + 1000 * 60 * 15),
     });
@@ -61,7 +61,7 @@ export class AuthController {
     const {token, usuario} = await this.authService.login(identificador, passwordIngresada);
     response.cookie('autorizacion', token, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       secure: true,
       expires: new Date(Date.now() + 1000 * 60 * 15),
     });
@@ -84,7 +84,7 @@ export class AuthController {
 
     response.cookie('autorizacion', nuevoToken, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       secure: true,
       expires: new Date(Date.now() + 1000 * 60 * 15),
     });
@@ -97,7 +97,7 @@ export class AuthController {
   async logout(@Res({ passthrough: true }) response: Response) {
     response.cookie('autorizacion', '', {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       secure: true,
       expires: new Date(0),
     });
