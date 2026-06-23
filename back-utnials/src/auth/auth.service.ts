@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Model } from 'mongoose';
-import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
-import { Usuario, UsuarioDocument } from 'src/usuarios/entities/usuario.entity';
+import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
+import { Usuario, UsuarioDocument } from '../usuarios/entities/usuario.entity';
 
 @Injectable()
 export class AuthService {

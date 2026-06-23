@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { JwtGuard } from 'src/auth/guards/jwt/jwt.guard';
-import { AdminGuard } from 'src/auth/guards/admin/admin.guard';
+import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
+import { AdminGuard } from '../auth/guards/admin/admin.guard';
 
 @Controller('usuarios')
 @UseGuards(JwtGuard, AdminGuard)

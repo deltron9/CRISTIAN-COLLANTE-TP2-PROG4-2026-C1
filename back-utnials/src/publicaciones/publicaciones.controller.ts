@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards, Req, ForbiddenException, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { PublicacionesService } from './publicaciones.service';
 import { CreatePublicacioneDto } from './dto/create-publicacione.dto';
-import { JwtGuard } from 'src/auth/guards/jwt/jwt.guard';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 

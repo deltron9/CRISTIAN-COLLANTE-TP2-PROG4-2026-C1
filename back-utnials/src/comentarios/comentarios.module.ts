@@ -3,8 +3,8 @@ import { ComentariosService } from './comentarios.service';
 import { ComentariosController } from './comentarios.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Comentario, ComentarioSchema } from './entities/comentario.entity';
-import { PublicacionesModule } from 'src/publicaciones/publicaciones.module';
-import { AuthModule } from 'src/auth/auth.module'; // <-- Importamos AuthModule
+import { PublicacionesModule } from '../publicaciones/publicaciones.module';
+import { AuthModule } from '../auth/auth.module'; 
 
 @Module({
   imports: [ 

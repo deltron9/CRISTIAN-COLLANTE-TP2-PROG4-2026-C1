@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { Usuario } from 'src/usuarios/entities/usuario.entity';
-import { Comentario } from 'src/comentarios/entities/comentario.entity';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { Comentario } from '../../comentarios/entities/comentario.entity';
 
 export type PublicacionDocument = mongoose.HydratedDocument<Publicacion>;
 

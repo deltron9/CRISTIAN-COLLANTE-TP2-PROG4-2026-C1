@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Re
 import { ComentariosService } from './comentarios.service';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
 import { UpdateComentarioDto } from './dto/update-comentario.dto';
-import { JwtGuard } from 'src/auth/guards/jwt/jwt.guard';
+import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
 
 @Controller('comentarios')
 @UseGuards(JwtGuard)

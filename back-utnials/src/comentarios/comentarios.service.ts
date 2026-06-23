@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Comentario, ComentarioDocument } from './entities/comentario.entity';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
 import { UpdateComentarioDto } from './dto/update-comentario.dto';
-import { PublicacionesService } from 'src/publicaciones/publicaciones.service';
+import { PublicacionesService } from '../publicaciones/publicaciones.service';
 
 @Injectable()
 export class ComentariosService {

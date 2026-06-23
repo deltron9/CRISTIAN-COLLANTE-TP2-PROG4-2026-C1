@@ -3,8 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Usuario, UsuarioSchema } from 'src/usuarios/entities/usuario.entity';
-
+import { Usuario, UsuarioSchema } from '../usuarios/entities/usuario.entity';
 @Module({
   imports: [
     CloudinaryModule,
