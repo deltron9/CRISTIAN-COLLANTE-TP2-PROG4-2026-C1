@@ -80,14 +80,17 @@ export class AuthService {
   }
 }
 
-  logout() {
-    this.timer.limpiarTimers();
-    sessionStorage.removeItem('user_session');
-    this.usuarioActual.set(null);
-    
-    this.http.post(`${this.urlBack}/logout`, {}).subscribe();
-    this.router.navigate(['/login']);
-  }
+logout() {
+  this.timer.limpiarTimers();
+  sessionStorage.removeItem('user_session');
+  this.usuarioActual.set(null);
+  this.router.navigate(['auth/login']);
+  
+  this.http.post(`${this.urlBack}/auth/logout`, {}, { withCredentials: true }).subscribe({
+    next: () => console.log('cookie eliminada'),
+    error: (err) => console.log('error, o paso algo con la cookie', err)
+  });
+}
 
   async refrescarToken() {
     try {
