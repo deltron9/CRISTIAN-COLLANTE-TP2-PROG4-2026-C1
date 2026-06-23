@@ -19,12 +19,14 @@ export class AuthService {
 
   urlBack = environment.NG_APP_BACKEND_URL;
   usuarioActual = signal<IUsuario | null>(null);
+  sesionVerificada = signal<boolean>(false);
 
   constructor() {
     const usuarioGuardado = sessionStorage.getItem('user_session');
     if (usuarioGuardado) {
       this.usuarioActual.set(JSON.parse(usuarioGuardado));
       this.timer.iniciarContadores();
+      this.sesionVerificada.set(true);    
     }
 
     window.addEventListener('extender_sesion_click', () => this.extenderSesion());
@@ -56,7 +58,7 @@ export class AuthService {
       const usernameCreado = response?.username || usuario.username;
       
       await this.alert.msjSuccess(`¡Bienvenido a utnials, ${usernameCreado}!`);
-      this.router.navigateByUrl('/publicaciones'); //tengo que cambiar por pagina de carga a futuro
+      this.router.navigateByUrl('/pantalla-cargando');
 
     } catch (error: any) {
       await this.alert.msjError(error.error?.message || 'Error al registrarse');
@@ -73,7 +75,7 @@ export class AuthService {
       this.establecerSesionLocal(usuario);
     }
 
-    this.router.navigateByUrl('/publicaciones'); //tengo que agregar la pagina de carga
+    this.router.navigateByUrl('/pantalla-cargando');
 
   } catch (error: any) {
     await this.alert.msjError(error.error?.message || 'Error al iniciar sesion');
@@ -84,6 +86,7 @@ logout() {
   this.timer.limpiarTimers();
   sessionStorage.removeItem('user_session');
   this.usuarioActual.set(null);
+  this.sesionVerificada.set(false);
   this.router.navigate(['auth/login']);
   
   this.http.post(`${this.urlBack}/auth/logout`, {}, { withCredentials: true }).subscribe({
@@ -110,6 +113,7 @@ logout() {
     this.usuarioActual.set(usuario);
     sessionStorage.setItem('user_session', JSON.stringify(usuario));
     this.timer.iniciarContadores(); 
+    this.sesionVerificada.set(false);
   }
 
   async validarAutorizacion(): Promise<IUsuario> {
