@@ -7,20 +7,33 @@ export const RutasParaLogeadosGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   const usuarioLogeado = auth.usuarioActual();
+  const sesionVerificada = auth.sesionVerificada();
   
   const pathActual = route.routeConfig?.path;
   const esRutaSinSesion = pathActual === 'login' || pathActual === 'register';
   const pantallaCargando = pathActual === 'pantalla-cargando';
 
-  if (esRutaSinSesion || pantallaCargando) {
-    if (usuarioLogeado) {
+  if (pantallaCargando) {
+    if (usuarioLogeado && sesionVerificada) {
       router.navigate(['/publicaciones']);
       return false;
     }
-    return true;
+    if (usuarioLogeado && !sesionVerificada) {
+      return true;
+    }
+    router.navigate(['/auth/login']);
+    return false;
   }
 
-  if (usuarioLogeado) {
+  if (esRutaSinSesion) {
+    if (usuarioLogeado && sesionVerificada) {
+      router.navigate(['/publicaciones']);
+      return false;
+    }
+    return true; 
+  }
+
+  if (usuarioLogeado && sesionVerificada) {
     return true;
   }
 
