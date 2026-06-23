@@ -97,4 +97,20 @@ export class AuthController {
     return { statusCode: HttpStatus.OK, message: 'sesion cerrada' };
   }
 
+  @Get('autorizar')
+    async autorizar(@Req() request: Request) {
+      const token = request.cookies['autorizacion'];
+
+      if (!token) {
+        throw new UnauthorizedException('no hay token de sesion');
+      }
+
+      const usuario = await this.authService.verificarToken(token);
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Token válido',
+        data: usuario
+      };
+    }
 }
