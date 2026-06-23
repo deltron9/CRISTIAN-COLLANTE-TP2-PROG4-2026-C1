@@ -117,4 +117,13 @@ export class AuthService {
       throw new UnauthorizedException('sesion desconocida o expirada');
     }
   }
+
+  async buscarPorId(id: string) {
+    const usuario = await this.usuarioModel.findById(id);
+    if (!usuario) {
+      throw new UnauthorizedException('usuario no encontrado');
+    }
+    const { password, ...usuarioSinPassword } = usuario.toObject();
+    return usuarioSinPassword;
+  }
 }

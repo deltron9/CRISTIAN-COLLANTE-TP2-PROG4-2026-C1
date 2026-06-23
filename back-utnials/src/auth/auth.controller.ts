@@ -30,10 +30,9 @@ export class AuthController {
         'https://res.cloudinary.com/dlhhbgj7r/image/upload/v1781149020/482056780_949840174018946_2539982982619622742_n_zinnf2.jpg',
         'https://res.cloudinary.com/dlhhbgj7r/image/upload/v1781149020/484079314_949839960685634_7088690828856529057_n_mlspkt.jpg',
         'https://res.cloudinary.com/dlhhbgj7r/image/upload/v1781149020/482032967_949840107352286_1958018150153196724_n_kgl7qb.jpg'
-
       ];
-    const random = Math.floor(Math.random() * AVATARES_DEFAULT.length);
-    urlImagen = AVATARES_DEFAULT[random];
+      const random = Math.floor(Math.random() * AVATARES_DEFAULT.length);
+      urlImagen = AVATARES_DEFAULT[random];
     }
 
     const {token, usuario} = await this.authService.registro(createUsuarioDto, urlImagen);
@@ -44,7 +43,12 @@ export class AuthController {
       secure: true,
       expires: new Date(Date.now() + 1000 * 60 * 15),
     });
-    response.send(usuario)
+    
+    response.send({
+      statusCode: HttpStatus.CREATED,
+      message: 'Usuario registrado con éxito',
+      data: usuario
+    });
   }
 
   @HttpCode(HttpStatus.OK)
@@ -52,7 +56,7 @@ export class AuthController {
   async login(
     @Body('identificador') identificador: string,
     @Body('passwordIngresada') passwordIngresada: string,
-    @Res({ passthrough: true}) response: Response
+    @Res({ passthrough: false}) response: Response
   ) {
     const {token, usuario} = await this.authService.login(identificador, passwordIngresada);
     response.cookie('autorizacion', token, {
@@ -62,7 +66,11 @@ export class AuthController {
       expires: new Date(Date.now() + 1000 * 60 * 15),
     });
 
-    return usuario;
+    response.send({
+      statusCode: HttpStatus.OK,
+      message: 'Login exitoso',
+      data: usuario
+    });
   }
 
   @Post('refrescar')
@@ -98,19 +106,21 @@ export class AuthController {
   }
 
   @Get('autorizar')
-    async autorizar(@Req() request: Request) {
-      const token = request.cookies['autorizacion'];
+  async autorizar(@Req() request: Request) {
+    const token = request.cookies['autorizacion'];
 
-      if (!token) {
-        throw new UnauthorizedException('no hay token de sesion');
-      }
-
-      const usuario = await this.authService.verificarToken(token);
-
-      return {
-        statusCode: HttpStatus.OK,
-        message: 'Token válido',
-        data: usuario
-      };
+    if (!token) {
+      throw new UnauthorizedException('no hay token de sesion');
     }
+
+    const payloadToken = this.authService.verificarToken(token);
+
+    const usuarioCompleto = await this.authService.buscarPorId(payloadToken.id);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Token válido',
+      data: usuarioCompleto
+    };
+  }
 }
