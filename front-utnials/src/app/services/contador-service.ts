@@ -15,25 +15,25 @@ export class ContadorService {
     this.limpiarTimers();
     this.sesionExpirada.set(false);
 
-    const TIEMPO_ADVERTENCIA = 10 * 60 * 1000; 
+    const TIEMPO_ADVERTENCIA = 10 * 1000;
 
     this.timerAdvertencia = setTimeout(async () => {
       
-      const TIEMPO_DESPUES_ADVERTENCIA = 5 * 60 * 1000; 
+      const TIEMPO_DESPUES_ADVERTENCIA = 5 * 1000;
+      
       this.timerExpiracionFinal = setTimeout(() => {
-
-        this.sesionExpirada.set(true); 
-        this.limpiarTimers();
+        this.notificarCierreDefinitivo();
       }, TIEMPO_DESPUES_ADVERTENCIA);
 
       const quiereExtender = await this.alert.msjExpiracionSesion();
+      if (this.sesionExpirada()) return;
+
+      this.limpiarTimers();
 
       if (quiereExtender) {
         this.notificarExtenderSesion();
       } else {
-        this.sesionExpirada.set(true);
-        this.alert.cerrarAlerta();
-        this.limpiarTimers();
+        this.notificarCierreDefinitivo();
       }
 
     }, TIEMPO_ADVERTENCIA);
@@ -51,14 +51,18 @@ export class ContadorService {
 
   notificarExtenderSesion() {
     this.limpiarTimers();
-    if (window) {
+    if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('extender_sesion_click'));
     }
   }
 
   notificarCierreDefinitivo() {
-    this.alert.cerrarAlerta();
+    this.sesionExpirada.set(true);
     this.limpiarTimers();
-    window.dispatchEvent(new CustomEvent('sesion_expirada_timeout'));
+    this.alert.cerrarAlerta();
+    
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('sesion_expirada_timeout'));
+    }
   }
 }

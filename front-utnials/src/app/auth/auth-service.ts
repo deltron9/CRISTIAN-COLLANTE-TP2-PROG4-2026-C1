@@ -30,7 +30,18 @@ export class AuthService {
     }
 
     window.addEventListener('extender_sesion_click', () => this.extenderSesion());
-    window.addEventListener('sesion_expirada_timeout', () => this.logout());
+    window.addEventListener('sesion_expirada_timeout', async () => {
+
+      this.timer.limpiarTimers();
+      sessionStorage.removeItem('user_session');
+      this.usuarioActual.set(null);
+      this.sesionVerificada.set(false);
+
+      await this.alert.msjErrorSesion(); 
+
+      this.router.navigate(['auth/login']);
+      this.http.post(`${this.urlBack}/auth/logout`, {}, { withCredentials: true }).subscribe();
+    });
   }
 
   async registrar(usuario: Iregistrar, file: File | null): Promise<void> {
@@ -97,9 +108,10 @@ logout() {
 
   async refrescarToken() {
     try {
-      await firstValueFrom(this.http.post(`${this.urlBack}/refrescar`, {}));
-      this.timer.iniciarContadores(); 
-    } catch {
+      await firstValueFrom(this.http.post(`${this.urlBack}/auth/refrescar`, {}, { withCredentials: true }));
+      this.timer.iniciarContadores();
+    } catch (err) {
+      console.error('Error al refrescar token:', err);
       this.logout();
     }
   }
