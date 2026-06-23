@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../auth-service';
 import { Iregistrar } from '../iregistrar';
@@ -11,6 +11,7 @@ import { Iregistrar } from '../iregistrar';
 })
 export class Register {
   auth = inject(AuthService);
+  ocultarPassword = signal(true);
 
   selectedFile: File | null = null;
 
