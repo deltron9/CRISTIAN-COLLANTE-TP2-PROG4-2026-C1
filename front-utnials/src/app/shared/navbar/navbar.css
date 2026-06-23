@@ -102,6 +102,7 @@
     justify-content: space-between; 
     padding: 0 2px;
     box-sizing: border-box;
+    gap: 8px;
 }
 
 .logo-miniatura {
@@ -204,7 +205,7 @@
 }
 
 #theme-toggle-button {
-  font-size: 11px; 
+  font-size: 11px;
   position: relative;
   display: inline-block;
   width: 5.5em;
@@ -216,6 +217,13 @@
   opacity: 0;
   width: 0;
   height: 0;
+  position: absolute;
+}
+
+#theme-toggle-button svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 #container,
@@ -227,22 +235,23 @@
 #cloud {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.8s;
+  transition-duration: 0.25s;
 }
+
+#sun { opacity: 1; }
+#moon { opacity: 0; }
+#cloud { opacity: 1; }
+#stars { opacity: 0; }
 
 #toggle:checked + svg #container {
   fill: #2b4360;
 }
 
 #toggle:checked + svg #button {
-  transform: translate(28px, 2.333px);
+  transform: translate(25px, 2.333px);
 }
 
-#sun { opacity: 1; }
 #toggle:checked + svg #sun { opacity: 0; }
-#moon { opacity: 0; }
 #toggle:checked + svg #moon { opacity: 1; }
-#cloud { opacity: 1; }
 #toggle:checked + svg #cloud { opacity: 0; }
-#stars { opacity: 0; }
 #toggle:checked + svg #stars { opacity: 1; }
