@@ -24,7 +24,7 @@
 
       <div class="fila-dato-editorial">
         <span class="dato-etiqueta">Fecha de Nacimiento:</span>
-        <span class="dato-valor-texto">{{ usuarioLogueado()?.fechaNacimiento }}</span>
+        <span class="dato-valor-texto"><p>{{ usuarioLogueado()?.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</p></span>
       </div>
 
       <div class="fila-dato-editorial">
