@@ -112,4 +112,10 @@ logout() {
     this.timer.iniciarContadores(); 
   }
 
+  async validarAutorizacion(): Promise<IUsuario> {
+    return await firstValueFrom(
+      this.http.get<IUsuario>(`${this.urlBack}/auth/autorizar`, { withCredentials: true })
+    );
+  }
+
 }
