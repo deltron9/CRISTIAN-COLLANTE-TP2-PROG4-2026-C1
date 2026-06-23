@@ -132,6 +132,9 @@
                         @if (formRegistro.get('descripcion')?.hasError('maxlength')) {
                         <span class="error-mensaje">Maximo 150 caracteres.</span>
                         }
+                        @if (formRegistro.get('descripcion')?.hasError('minlength')) {
+                        <span class="error-mensaje">Minimo 4 caracteres.</span>
+                        }
                     </div>
                 </div>
 

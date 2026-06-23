@@ -26,7 +26,7 @@ export class Register {
       Validators.pattern('^(?=.*[A-Z])(?=.*\\d)[a-zA-Z0-9]*$')]),
     repetirPassword: new FormControl('', [Validators.required]),
     fechaNacimiento: new FormControl('', [Validators.required]),
-    descripcion: new FormControl('', [Validators.required, Validators.maxLength(150)]),
+    descripcion: new FormControl('', [Validators.minLength(4), Validators.maxLength(150)]),
     profileImg: new FormControl<any>(null)
   }, { 
     validators: this.validarRepetirPassword
