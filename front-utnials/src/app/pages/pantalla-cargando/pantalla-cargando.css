@@ -1,6 +1,6 @@
 .pantalla-carga-brutal {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: #f4f4f4;
     background-image: radial-gradient(#111111 1px, transparent 1px);
     background-size: 20px 20px;
