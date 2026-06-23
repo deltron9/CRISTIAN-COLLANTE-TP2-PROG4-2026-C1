@@ -73,17 +73,19 @@ export class AlertService {
   async msjErrorSesion(): Promise<void> {
     await Swal.fire({
       icon: 'warning',
-      title: 'Sesión expirada',
+      title: 'Sesión Caducada',
       text: 'sesion expirada o error de token. ',
-      showConfirmButton: true,
-      confirmButtonText: 'Ir al login',
+      showConfirmButton: false,
       confirmButtonColor: '#1877f2',
       heightAuto: false,
       background: '#ffffff',
       backdrop: `rgba(15, 23, 42, 0.75)`,
       allowOutsideClick: false,
       allowEscapeKey: false,
-      allowEnterKey: true
+      allowEnterKey: true,
+      timer: 3000,
+      timerProgressBar: true,
+      stopKeydownPropagation: true
     });
   }
 
