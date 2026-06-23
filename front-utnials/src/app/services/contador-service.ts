@@ -15,11 +15,11 @@ export class ContadorService {
     this.limpiarTimers();
     this.sesionExpirada.set(false);
 
-    const TIEMPO_ADVERTENCIA = 10 * 1000;
+    const TIEMPO_ADVERTENCIA = 10 * 60 * 1000;
 
     this.timerAdvertencia = setTimeout(async () => {
       
-      const TIEMPO_DESPUES_ADVERTENCIA = 5 * 1000;
+      const TIEMPO_DESPUES_ADVERTENCIA = 5 * 60 * 1000;
       
       this.timerExpiracionFinal = setTimeout(() => {
         this.notificarCierreDefinitivo();
