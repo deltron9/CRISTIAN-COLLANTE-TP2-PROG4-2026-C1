@@ -7,15 +7,17 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
+import { BaneadoGuard } from 'src/auth/guards/baneado/baneado.guard';
 
 @Controller('usuarios')
+
 export class UsuariosController {
   constructor(
     private readonly usuariosService: UsuariosService,
   ) {}
 
   @Get('perfil')
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard, BaneadoGuard)
   async obtenerPerfil(@Req() req: any) {
     const userId = req.user?.id;
     if (!userId) throw new UnauthorizedException('Usuario no identificado');
@@ -50,7 +52,7 @@ export class UsuariosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard, BaneadoGuard)
   async findOne(@Param('id') id: string) {
     const usuario = await this.usuariosService.findOne(id);
     let usuarioSinPassword = null;
@@ -66,7 +68,7 @@ export class UsuariosController {
   }
 
   @Post()
-  @UseGuards(JwtGuard, AdminGuard)
+  @UseGuards(JwtGuard, AdminGuard, BaneadoGuard)
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(
     FileInterceptor('profileImg', {
@@ -120,7 +122,7 @@ export class UsuariosController {
   }
 
   @Put(':id')
-  @UseGuards(JwtGuard, AdminGuard)
+  @UseGuards(JwtGuard, AdminGuard, BaneadoGuard)
   async update(
     @Param('id') id: string,
     @Body() updateUsuarioDto: UpdateUsuarioDto,
@@ -140,7 +142,7 @@ export class UsuariosController {
   }
 
   @Delete(':id/baja')
-  @UseGuards(JwtGuard, AdminGuard)
+  @UseGuards(JwtGuard, AdminGuard, BaneadoGuard)
   @HttpCode(HttpStatus.OK)
   async baja(@Param('id') id: string) {
     const resultado = await this.usuariosService.deshabilitar(id);
@@ -152,7 +154,7 @@ export class UsuariosController {
   }
 
   @Post(':id/alta')
-  @UseGuards(JwtGuard, AdminGuard)
+  @UseGuards(JwtGuard, AdminGuard, BaneadoGuard)
   @HttpCode(HttpStatus.OK)
   async alta(@Param('id') id: string) {
     const resultado = await this.usuariosService.habilitar(id);
