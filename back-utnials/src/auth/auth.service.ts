@@ -115,6 +115,10 @@ export class AuthService {
         throw new UnauthorizedException('Usuario no encontrado');
       }
 
+      if (usuario.activo === false) {
+        throw new ForbiddenException('Cuenta desactivada por un admin');
+      }
+
       const nuevoToken = this.generateToken(
         payload.id,
         payload.email,
@@ -124,6 +128,9 @@ export class AuthService {
       return nuevoToken;
 
     } catch (error) {
+      if (error instanceof ForbiddenException) {
+        throw error;
+      }
       throw new UnauthorizedException('sesion desconocida o expirada');
     }
   }
@@ -133,6 +140,11 @@ export class AuthService {
     if (!usuario) {
       throw new UnauthorizedException('usuario no encontrado');
     }
+
+    if (usuario.activo === false) {
+      throw new ForbiddenException('Cuenta desactivada por un admin');
+    }
+
     const { password, ...usuarioSinPassword } = usuario.toObject();
     return usuarioSinPassword;
   }

@@ -11,6 +11,6 @@ import { Usuario, UsuarioSchema } from '../usuarios/entities/usuario.entity';
   ],
   controllers: [AuthController],
   providers: [AuthService],
-  exports: [AuthService]
+  exports: [AuthService, MongooseModule]
 })
 export class AuthModule {}
