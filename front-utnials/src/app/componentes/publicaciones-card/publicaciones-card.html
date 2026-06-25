@@ -3,8 +3,8 @@
     <div class="post-cabecera">
         <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
         <div class="post-info">
-            <h4>{{ nombreAutor() | rolColor }}</h4>
-            <span class="post-fecha">&#64;{{ usernameAutor() | rolColor }} • {{ fechaCreacion() | tiempoRelativo}}</span>
+            <h4 [style.color]="esAdministrador() | rolColor">{{ nombreAutor() }}</h4>
+            <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() | tiempoRelativo }}</span>
         </div>
 
         @if (puedeEliminarPublicacion()) {
@@ -41,7 +41,8 @@
                (ngModelChange)="nuevoComentarioTexto.set($event)"
                placeholder="Deja tu comentario" 
                class="input-comentario-rapido"
-               (keyup.enter)="nuevoComentarioTexto().trim() ? agregarComentario() : null"> <button 
+               (keyup.enter)="nuevoComentarioTexto().trim() ? agregarComentario() : null"> 
+        <button 
           class="btn-enviar-rapido" 
           (click)="agregarComentario()"
           [disabled]="!nuevoComentarioTexto().trim()"
@@ -49,6 +50,8 @@
             <i class="ri-send-plane-2-line"></i>
         </button>
     </div>
+
+</div>
 
 @if (modalAbierto()) {
     <div class="modal-overlay" (click)="cerrarModal()">
@@ -61,8 +64,8 @@
             <div class="modal-cabecera">
                 <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
                 <div class="post-info">
-                    <h4>{{ nombreAutor() }}</h4>
-                    <span class="post-fecha">&#64;{{ usernameAutor() | rolColor }} • {{ fechaCreacion() | tiempoRelativo }}</span>
+                    <h4 [style.color]="esAdministrador() | rolColor">{{ nombreAutor() }}</h4>
+                    <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() | tiempoRelativo }}</span>
                 </div>
             </div>
 
@@ -71,7 +74,7 @@
                 <div class="seccion-izquierda-modal">
                     <div class="modal-info-post-pantalla">
                         <h5>{{ tituloPost() }}</h5>
-                        <p>{{ contenidoPost() | recortarTexto:120 }}</p>
+                        <p>{{ contenidoPost() }}</p>
                     </div>
                     
                     @if (imagenPost()) {
@@ -106,7 +109,7 @@
                                 
                                 <div class="cuerpo-comentario">
                                     <div class="cabecera-comentario">
-                                        <strong>{{ coment.autor.nombre | rolColor }} {{ coment.autor.apellido }}</strong>
+                                        <strong [style.color]="esAdministrador() | rolColor">{{ coment.autor.nombre }} {{ coment.autor.apellido }}</strong>
                                         <span class="coment-username">&#64;{{ coment.autor.username }}</span>
                                         
                                         @if (coment.autor._id === usuarioLogueado()?._id || esAdministrador()) {
