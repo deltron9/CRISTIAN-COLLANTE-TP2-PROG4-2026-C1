@@ -13,7 +13,7 @@ interface DataEstadistica {
 })
 export class EstadisticasService {
 
-  urlBack = environment.NG_APP_BACKEND_URL;
+  urlBack = 'https://utnials.vercel.app';
   http = inject(HttpClient);
 
   getPublicacionesPorUsuario(dias: number): Observable<DataEstadistica[]> {
