@@ -70,6 +70,10 @@ export class AuthService {
       throw new UnauthorizedException('El usuario no posee una credencial de acceso válida');
     }
 
+    if (usuario.activo === false) {
+      throw new UnauthorizedException('Cuenta desactivada por un admin');
+    }
+
     const passwordCorrecta = await this.comparePasswords(passwordIngresada, usuario.password);
     if (!passwordCorrecta) {
       throw new UnauthorizedException('Credenciales inválidas');
