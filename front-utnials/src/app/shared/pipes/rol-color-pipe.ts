@@ -5,14 +5,13 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class RolColorPipe implements PipeTransform {
-  transform(esAdmin: boolean | string | null | undefined): string {
-    if (!esAdmin) return 'inherit'; 
 
+  transform(esAdmin: boolean | string | null | undefined): string {
     if (esAdmin === true || esAdmin === 'admin') {
-      return '#ff4d4d'; 
+      return '#ff4d4d';
     }
 
-    return 'inherit';
+    return 'inherit'; 
   }
 
 }
