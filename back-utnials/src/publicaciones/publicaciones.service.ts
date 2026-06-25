@@ -83,4 +83,27 @@ export class PublicacionesService {
   async agregarComentario(idPublicacion: string, idComentario: string) {
     return this.publicacionModel.findByIdAndUpdate( idPublicacion, {$push: { comentarios: idComentario }, $inc:{ comentariosCount: 1 }});
   }
+
+  async obtenerEstadisticasUsuarios(dias?: number) {
+    const filter: any = {};
+
+    if (dias) {
+      const fechaInicio = new Date();
+      fechaInicio.setDate(fechaInicio.getDate() - dias);
+      filter.createdAt = { $gte: fechaInicio };
+    }
+
+    const publicaciones = await this.publicacionModel.find(filter).select('createdAt autor').populate('autor', 'username').lean().exec();
+
+    const conteoUsuarios: { [username: string]: number } = {};
+    publicaciones.forEach((p: any) => {
+      if (p.autor && p.autor.username) {
+        const username = p.autor.username;
+        conteoUsuarios[username] = (conteoUsuarios[username] || 0) + 1;
+      }
+    });
+
+    return Object.entries(conteoUsuarios)
+      .map(([username, total]) => ({label: `@${username}`, data: total})).sort((a, b) => b.data - a.data).slice(0, 10);
+  }
 }

@@ -4,10 +4,12 @@ import { CreatePublicacioneDto } from './dto/create-publicacione.dto';
 import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { BaneadoGuard } from 'src/auth/guards/baneado/baneado.guard';
+import { AdminGuard } from 'src/auth/guards/admin/admin.guard';
 
 
 @Controller('publicaciones')
-@UseGuards(JwtGuard)
+@UseGuards(JwtGuard, BaneadoGuard)
 export class PublicacionesController {
   constructor(private readonly publicacionesService: PublicacionesService, private readonly cloudinaryService: CloudinaryService) {}
 
@@ -65,5 +67,12 @@ export class PublicacionesController {
   @Delete(':id/like')
   quitarLike(@Param('id') id: string, @Req() req: any) {
     return this.publicacionesService.sacarLike(id, req.user.id);
+  }
+
+  @Get('estadisticas/usuarios')
+  @UseGuards(AdminGuard)
+  async obtenerEstadisticasUsuarios(@Query('dias') dias?: string) {
+    const diasNum = dias ? parseInt(dias, 10) : undefined;
+    return this.publicacionesService.obtenerEstadisticasUsuarios(diasNum);
   }
 }
