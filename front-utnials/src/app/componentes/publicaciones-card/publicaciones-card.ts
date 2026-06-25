@@ -5,11 +5,14 @@ import { ComentariosService } from '../../services/comentario-service/comentario
 import { IComentario } from '../../services/comentario-service/i-comentario';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RecortarTextoPipe } from '../../shared/pipes/recortar-texto-pipe';
+import { TiempoRelativoPipe } from '../../shared/pipes/tiempo-relativo-pipe';
+import { RolColorPipe } from '../../shared/pipes/rol-color-pipe';
 
 @Component({
   selector: 'app-publicaciones-card',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TiempoRelativoPipe, RecortarTextoPipe, RolColorPipe],
   templateUrl: './publicaciones-card.html',
   styleUrl: './publicaciones-card.css',
 })

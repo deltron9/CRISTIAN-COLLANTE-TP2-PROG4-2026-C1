@@ -3,8 +3,8 @@
     <div class="post-cabecera">
         <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
         <div class="post-info">
-            <h4>{{ nombreAutor() }}</h4>
-            <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() }}</span>
+            <h4>{{ nombreAutor() | rolColor }}</h4>
+            <span class="post-fecha">&#64;{{ usernameAutor() | rolColor }} • {{ fechaCreacion() | tiempoRelativo}}</span>
         </div>
 
         @if (puedeEliminarPublicacion()) {
@@ -16,7 +16,7 @@
 
     <div class="post-contenido">
         <h5>{{ tituloPost() }}</h5>
-        <p>{{ contenidoPost() }}</p>
+        <p>{{ contenidoPost() | recortarTexto:120 }}</p>
     
         @if (imagenPost()) {
             <img [src]="imagenPost()" alt="Imagen adjunta" class="post-imagen-adjunta">
@@ -62,7 +62,7 @@
                 <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
                 <div class="post-info">
                     <h4>{{ nombreAutor() }}</h4>
-                    <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() }}</span>
+                    <span class="post-fecha">&#64;{{ usernameAutor() | rolColor }} • {{ fechaCreacion() | tiempoRelativo }}</span>
                 </div>
             </div>
 
@@ -71,7 +71,7 @@
                 <div class="seccion-izquierda-modal">
                     <div class="modal-info-post-pantalla">
                         <h5>{{ tituloPost() }}</h5>
-                        <p>{{ contenidoPost() }}</p>
+                        <p>{{ contenidoPost() | recortarTexto:120 }}</p>
                     </div>
                     
                     @if (imagenPost()) {
@@ -106,7 +106,7 @@
                                 
                                 <div class="cuerpo-comentario">
                                     <div class="cabecera-comentario">
-                                        <strong>{{ coment.autor.nombre }} {{ coment.autor.apellido }}</strong>
+                                        <strong>{{ coment.autor.nombre | rolColor }} {{ coment.autor.apellido }}</strong>
                                         <span class="coment-username">&#64;{{ coment.autor.username }}</span>
                                         
                                         @if (coment.autor._id === usuarioLogueado()?._id || esAdministrador()) {
