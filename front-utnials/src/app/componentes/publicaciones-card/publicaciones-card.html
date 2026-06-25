@@ -3,7 +3,9 @@
     <div class="post-cabecera">
         <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
         <div class="post-info">
-            <h4 [style.color]="esAdministrador() | rolColor">{{ nombreAutor() }}</h4>
+            <h4 [class.texto-admin]="autorId() === usuarioLogueado()?._id && esAdministrador()">
+                {{ nombreAutor() | rolColor:autorId():usuarioLogueado() }}
+            </h4>
             <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() | tiempoRelativo }}</span>
         </div>
 
@@ -64,7 +66,9 @@
             <div class="modal-cabecera">
                 <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
                 <div class="post-info">
-                    <h4 [style.color]="esAdministrador() | rolColor">{{ nombreAutor() }}</h4>
+                    <h4 [class.texto-admin]="autorId() === usuarioLogueado()?._id && esAdministrador()">
+                        {{ nombreAutor() | rolColor:autorId():usuarioLogueado() }}
+                    </h4>
                     <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() | tiempoRelativo }}</span>
                 </div>
             </div>
@@ -109,7 +113,9 @@
                                 
                                 <div class="cuerpo-comentario">
                                     <div class="cabecera-comentario">
-                                        <strong [style.color]="esAdministrador() | rolColor">{{ coment.autor.nombre }} {{ coment.autor.apellido }}</strong>
+                                        <strong [class.texto-admin]="coment.autor._id === usuarioLogueado()?._id && esAdministrador()">
+                                            {{ coment.autor.nombre + ' ' + coment.autor.apellido | rolColor:coment.autor._id:usuarioLogueado() }}
+                                        </strong>
                                         <span class="coment-username">&#64;{{ coment.autor.username }}</span>
                                         
                                         @if (coment.autor._id === usuarioLogueado()?._id || esAdministrador()) {
