@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth-service';
 import { Iregistrar } from '../iregistrar';
+import { formUsuario } from '../../shared/form-registro';
 
 @Component({
   selector: 'app-register',
@@ -15,27 +16,12 @@ export class Register {
 
   selectedFile: File | null = null;
 
-  formRegistro = new FormGroup({
-    nombre: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20), 
-      Validators.pattern('^[a-zA-Z]*$')]),
-    apellido: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20), 
-      Validators.pattern('^[a-zA-Z]*$')]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    username: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(15), 
-      Validators.pattern('^[a-zA-Z0-9_\\-\\.\\@]+$')]),
-    password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20),
-      Validators.pattern('^(?=.*[A-Z])(?=.*\\d)[a-zA-Z0-9]*$')]),
-    repetirPassword: new FormControl('', [Validators.required]),
-    fechaNacimiento: new FormControl('', [Validators.required]),
-    descripcion: new FormControl('', [Validators.minLength(4), Validators.maxLength(150)]),
-    profileImg: new FormControl<any>(null)
-  }, { 
-    validators: this.validarRepetirPassword
-  });
+  formRegistro = formUsuario();
 
-  async sendRegistro() {
+async sendRegistro() {
     if (this.formRegistro.valid) {
-      await this.auth.registrar(this.formRegistro.value as Iregistrar, this.selectedFile);
+      const { repetirPassword, ...datosLimpios } = this.formRegistro.value;
+      await this.auth.registrar(datosLimpios as Iregistrar, this.selectedFile);
     } else {
       this.formRegistro.markAllAsTouched();
     }
@@ -48,10 +34,4 @@ export class Register {
     }
   }
 
-  validarRepetirPassword(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('repetirPassword')?.value;
-
-    return password === confirmPassword ? null : { noMatch: true };
-  }
 }
