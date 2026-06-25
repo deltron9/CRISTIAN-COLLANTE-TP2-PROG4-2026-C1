@@ -26,7 +26,7 @@ export class Usuario {
     @Prop({ required: true })
     fechaNacimiento: Date;
 
-    @Prop({ required: true })
+    @Prop({ required: false })
     descripcion: string;
 
     @Prop({ default: ''})
