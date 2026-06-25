@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
@@ -29,6 +29,7 @@ export class AuthService {
     try {
       const salt = await bcrypt.genSalt(10);
       const passwordHasheada = await bcrypt.hash(usuarioDto.password, salt);
+      
       const usuarioCreado = await this.usuarioModel.create({
         ...usuarioDto,
         password: passwordHasheada,
@@ -45,11 +46,16 @@ export class AuthService {
 
       return { token, usuario: usuarioCreado };
 
-    } catch (error) {
-      if (error.code === 11000 || error.status === 409) {
-        throw new UnauthorizedException('El usuario o email ya existe');
+    } catch (error: any) {
+      if (error.code === 11000) {
+        throw new ConflictException('El usuario o email ya existe'); 
       }
-      throw new UnauthorizedException('No se pudo completar el registro');
+      
+      if (error.status === 400) {
+        throw error;
+      }
+      
+      throw new InternalServerErrorException('No se pudo completar el registro debido a un error interno'); // Devuelve 500
     }
   }
 
