@@ -20,7 +20,7 @@ export class App implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
-      const estaLogueado = !!this.auth.usuarioActual;
+      const estaLogueado = !!this.auth.usuarioActual();
 
       if (estaLogueado) {
         if (event instanceof NavigationStart) {
