@@ -1,0 +1,148 @@
+<div class="contenedor-dashboard">
+  <h1 class="titulo-dashboard">Panel de Usuarios</h1>
+
+  <div class="wrapper-tabs">
+    <div class="wrapper">
+      <div class="option">
+        <input 
+          class="input" 
+          type="radio" 
+          name="seccionDashboard" 
+          value="listado" 
+          [checked]="ventanaActiva() === 'listado'"
+          (change)="cambiarVentana('listado')">
+        <div class="btn">
+          <span class="span">Listado</span>
+        </div>
+      </div>
+      <div class="option">
+        <input 
+          class="input" 
+          type="radio" 
+          name="seccionDashboard" 
+          value="registro" 
+          [checked]="ventanaActiva() === 'registro'"
+          (change)="cambiarVentana('registro')">
+        <div class="btn">
+          <span class="span">Registro</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="separador-brutalista">
+
+  @if (ventanaActiva() === 'listado') {
+    <section class="seccion-tabla animate-fade">
+      <h2 class="subtitulo-seccion">Usuarios Registrados</h2>
+      <div class="tabla-contenedor">
+        <table class="tabla-brutalista">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Perfil</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of listaUsuarios(); track user._id) {
+              <tr [class.usuario-desactivado]="user.activo === false">
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <span class="badge-perfil" [class.badge-admin]="user.perfil === 'admin'">
+                    {{ user.perfil }}
+                  </span>
+                </td>
+                <td>
+                  <span class="estado-texto">
+                    {{ user.activo !== false ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+                <td>
+                  @if (user.activo !== false) {
+                    <button class="btn-accion btn-baja" (click)="toggleEstado(user._id, false)">
+                      Deshabilitar
+                    </button>
+                  } @else {
+                    <button class="btn-accion btn-alta" (click)="toggleEstado(user._id, true)">
+                      Habilitar
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+
+  @if (ventanaActiva() === 'registro') {
+    <section class="seccion-formulario animate-fade">
+      <h2 class="subtitulo-seccion">Registrar Nuevo Perfil</h2>
+      <form [formGroup]="formRegistro" (ngSubmit)="crearUsuario()" class="form-brutalista">
+        
+        <div class="grupo-input">
+          <label>Nombre</label>
+          <input type="text" formControlName="nombre" placeholder="ej: Juan">
+        </div>
+
+        <div class="grupo-input">
+          <label>Apellido</label>
+          <input type="text" formControlName="apellido" placeholder="ej: Pérez">
+        </div>
+
+        <div class="grupo-input">
+          <label>Username</label>
+          <input type="text" formControlName="username" placeholder="ej: juan_dev">
+        </div>
+
+        <div class="grupo-input">
+          <label>Email</label>
+          <input type="email" formControlName="email" placeholder="correo@hotmail.com">
+        </div>
+
+        <div class="grupo-input">
+          <label>Contraseña</label>
+          <input type="password" formControlName="password" placeholder="********">
+        </div>
+
+        <div class="grupo-input">
+          <label>Repetir Contraseña</label>
+          <input type="password" formControlName="repetirPassword" placeholder="********">
+        </div>
+
+        <div class="grupo-input">
+          <label>Fecha de Nacimiento</label>
+          <input type="date" formControlName="fechaNacimiento">
+        </div>
+
+        <div class="grupo-input la-descripcion">
+          <label>Descripción</label>
+          <input type="text" formControlName="descripcion" placeholder="Breve bío...">
+        </div>
+
+        <div class="grupo-radio">
+          <label class="label-radio-titulo">Tipo de Perfil Administrativo:</label>
+          <div class="opciones-radio">
+            <label class="opcion-contenedor">
+              <input type="radio" value="user" formControlName="perfil">
+              <span class="radio-custom"></span> Usuario Común
+            </label>
+            <label class="opcion-contenedor">
+              <input type="radio" value="admin" formControlName="perfil">
+              <span class="radio-custom"></span> Administrador
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-crear" [disabled]="formRegistro.invalid">
+          Guardar Nuevo Usuario
+        </button>
+      </form>
+    </section>
+  }
+</div>

@@ -1,0 +1,69 @@
+<div class="contenedor-dashboard">
+  <h1 class="titulo-dashboard">Métricas globales</h1>
+  <div class="contenedor-pestanas">
+    <button 
+      class="btn-pestana" 
+      [class.activa]="graficoActivo() === 'publicaciones'" 
+      (click)="cambiarPestana('publicaciones')">
+      Posts por Usuario
+    </button>
+    <button 
+      class="btn-pestana" 
+      [class.activa]="graficoActivo() === 'comentarios'" 
+      (click)="cambiarPestana('comentarios')">
+      Historial Comentarios
+    </button>
+    <button 
+      class="btn-pestana" 
+      [class.activa]="graficoActivo() === 'por-publicacion'" 
+      (click)="cambiarPestana('por-publicacion')">
+      Top Posts Comentados
+    </button>
+  </div>
+
+  <div class="contenedor-grafico-activo">
+    
+    <div class="card-grafico" [hidden]="graficoActivo() !== 'publicaciones'">
+      <div class="encabezado-card">
+        <h3>Publicaciones por Usuario</h3>
+        <select (change)="onPublicacionesChange($event)">
+          <option value="1">Último día</option>
+          <option value="7" selected>Última semana</option>
+          <option value="30">Último mes</option>
+        </select>
+      </div>
+      <div class="cuerpo-grafico">
+        <canvas id="chartPublicaciones"></canvas>
+      </div>
+    </div>
+
+    <div class="card-grafico" [hidden]="graficoActivo() !== 'comentarios'">
+      <div class="encabezado-card">
+        <h3>Comentarios en el Tiempo</h3>
+        <select (change)="onComentariosChange($event)">
+          <option value="1">Último día</option>
+          <option value="7" selected>Última semana</option>
+          <option value="30">Último mes</option>
+        </select>
+      </div>
+      <div class="cuerpo-grafico">
+        <canvas id="chartComentarios"></canvas>
+      </div>
+    </div>
+
+    <div class="card-grafico" [hidden]="graficoActivo() !== 'por-publicacion'">
+      <div class="encabezado-card">
+        <h3>Comentarios por Publicación</h3>
+        <select (change)="onPorPublicacionChange($event)">
+          <option value="1">Último día</option>
+          <option value="7" selected>Última semana</option>
+          <option value="30">Último mes</option>
+        </select>
+      </div>
+      <div class="cuerpo-grafico contenedor-torta">
+        <canvas id="chartComentariosPorPublicacion"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>

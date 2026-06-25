@@ -1,0 +1,214 @@
+.contenedor-dashboard {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.titulo-dashboard {
+  font-size: 2.6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  letter-spacing: -1px;
+}
+
+.wrapper-tabs {
+  margin-bottom: 30px;
+}
+
+.wrapper {
+  --font-color-dark: #000000;
+  --font-color-light: #FFF;
+  --bg-color: #fff;
+  --main-color: #000000;
+  position: relative;
+  width: 290px;
+  height: 40px;
+  background-color: var(--bg-color);
+  border: 3px solid var(--main-color);
+  border-radius: 0px; 
+  display: flex;
+  flex-direction: row;
+  box-shadow: 6px 6px var(--main-color);
+}
+
+.option {
+  width: 140px;
+  height: 30px;
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  appearance: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.btn {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  border-radius: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.1s ease;
+}
+
+.span {
+  color: var(--font-color-dark);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.input:checked + .btn {
+  background-color: var(--main-color);
+}
+
+.input:checked + .btn .span {
+  color: var(--font-color-light);
+}
+
+.separador-brutalista {
+  border: none;
+  border-top: 4px solid #000;
+  margin-bottom: 30px;
+}
+
+.subtitulo-seccion {
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* Tablas e Inputs Brutalistas */
+.tabla-contenedor {
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px #000;
+  overflow-x: auto;
+  background: #fff;
+}
+
+.tabla-brutalista {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tabla-brutalista th, .tabla-brutalista td {
+  padding: 16px;
+  border: 3px solid #000;
+  font-weight: 700;
+}
+
+.tabla-brutalista th {
+  background-color: #f3f4f6;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.usuario-desactivado {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+}
+
+.badge-perfil {
+  background-color: #bfdbfe;
+  color: #000;
+  padding: 4px 8px;
+  border: 2px solid #000;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.badge-perfil.badge-admin {
+  background-color: #fef08a;
+}
+
+.btn-accion {
+  font-family: inherit;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border: 2px solid #000;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.btn-baja { background-color: #fca5a5; }
+.btn-alta { background-color: #86efac; }
+
+.seccion-formulario {
+  background: #fff;
+  border: 4px solid #000;
+  padding: 30px;
+  box-shadow: 8px 8px 0px #000;
+}
+
+.form-brutalista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  align-items: end;
+}
+
+.grupo-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.la-descripcion { grid-column: span 2; }
+
+.grupo-input label {
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.grupo-input input {
+  padding: 12px;
+  border: 3px solid #000;
+  font-family: inherit;
+  font-weight: 600;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.grupo-radio { grid-column: 1 / -1; margin-top: 10px; }
+.label-radio-titulo { font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 10px; }
+.opciones-radio { display: flex; gap: 30px; }
+.opcion-contenedor { display: flex; align-items: center; gap: 10px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+.opcion-contenedor input[type="radio"] { width: 20px; height: 20px; accent-color: #000; }
+
+.btn-crear {
+  grid-column: 1 / -1;
+  justify-self: start;
+  background-color: #a3e635;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border: 3px solid #000;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.btn-crear:disabled { background-color: #ccc; cursor: not-allowed; }
+
+.animate-fade {
+  animation: fadeIn 0.15s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
