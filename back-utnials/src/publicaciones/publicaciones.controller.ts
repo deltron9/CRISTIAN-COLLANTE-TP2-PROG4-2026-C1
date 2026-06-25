@@ -4,8 +4,8 @@ import { CreatePublicacioneDto } from './dto/create-publicacione.dto';
 import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { BaneadoGuard } from 'src/auth/guards/baneado/baneado.guard';
-import { AdminGuard } from 'src/auth/guards/admin/admin.guard';
+import { BaneadoGuard } from '../auth/guards/baneado/baneado.guard';
+import { AdminGuard } from '../auth/guards/admin/admin.guard';
 
 
 @Controller('publicaciones')

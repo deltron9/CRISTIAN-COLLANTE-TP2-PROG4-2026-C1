@@ -7,7 +7,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
-import { BaneadoGuard } from 'src/auth/guards/baneado/baneado.guard';
+import { BaneadoGuard } from '../auth/guards/baneado/baneado.guard';
 
 @Controller('usuarios')
 
