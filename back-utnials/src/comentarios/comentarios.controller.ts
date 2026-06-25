@@ -3,9 +3,10 @@ import { ComentariosService } from './comentarios.service';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
 import { UpdateComentarioDto } from './dto/update-comentario.dto';
 import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
+import { BaneadoGuard } from 'src/auth/guards/baneado/baneado.guard';
 
 @Controller('comentarios')
-@UseGuards(JwtGuard)
+@UseGuards(JwtGuard, BaneadoGuard)
 export class ComentariosController {
   constructor(private comentariosService: ComentariosService) {}
 
@@ -43,5 +44,17 @@ export class ComentariosController {
     const userId = req.user._id;
     const userRole = req.user.perfil;
     return this.comentariosService.eliminar(id, userId, userRole);
+  }
+
+  @Get('estadisticas/timeline')
+  async obtenerEstadisticasTimeline(@Query('dias') dias?: string) {
+    const diasNum = dias ? parseInt(dias, 10) : undefined;
+    return this.comentariosService.obtenerEstadisticasTimeline(diasNum);
+  }
+
+  @Get('estadisticas/por-publicacion')
+  async obtenerEstadisticasPorPublicacion(@Query('dias') dias?: string) {
+    const diasNum = dias ? parseInt(dias, 10) : undefined;
+    return this.comentariosService.obtenerEstadisticasPorPublicacion(diasNum);
   }
 }

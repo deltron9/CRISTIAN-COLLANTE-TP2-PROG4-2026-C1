@@ -107,4 +107,60 @@ export class ComentariosService {
     return this.comentarioModel.find({ estado: 'activo' }).populate('autor', 'username nombre apellido imagen')
       .populate('publicacion', '_id titulo').sort({createdAt: -1}).exec();
   }
+
+  async obtenerEstadisticasTimeline(dias?: number) {
+    const filter: any = {};
+
+    if (dias) {
+      const fechaInicio = new Date();
+      fechaInicio.setDate(fechaInicio.getDate() - dias);
+      filter.createdAt = { $gte: fechaInicio };
+    }
+
+    const comentarios = await this.comentarioModel
+      .find(filter)
+      .select('createdAt')
+      .sort({ createdAt: 1 })
+      .lean()
+      .exec();
+
+    const conteoFechas: { [fecha: string]: number } = {};
+    comentarios.forEach((c: any) => {
+      const fechaTexto = new Date(c.createdAt).toLocaleDateString('es-AR');
+      conteoFechas[fechaTexto] = (conteoFechas[fechaTexto] || 0) + 1;
+    });
+
+    return Object.entries(conteoFechas).map(([fecha, total]) => ({
+      label: fecha,
+      data: total,
+    }));
+  }
+
+  async obtenerEstadisticasPorPublicacion(dias?: number) {
+    const filter: any = {};
+
+    if (dias) {
+      const fechaInicio = new Date();
+      fechaInicio.setDate(fechaInicio.getDate() - dias);
+      filter.createdAt = { $gte: fechaInicio };
+    }
+
+    const comentarios = await this.comentarioModel.find(filter).select('publicacion').populate('publicacion', 'titulo').lean().exec();
+
+    const conteoPublis: { [titulo: string]: number } = {};
+    comentarios.forEach((c: any) => {
+      if (c.publicacion && c.publicacion.titulo) {
+        const titulo = c.publicacion.titulo;
+        conteoPublis[titulo] = (conteoPublis[titulo] || 0) + 1;
+      }
+    });
+
+    return Object.entries(conteoPublis)
+      .map(([titulo, total]) => ({
+        label: titulo.length > 20 ? titulo.substring(0, 20) + '...' : titulo,
+        data: total,
+      }))
+      .sort((a, b) => b.data - a.data)
+      .slice(0, 5);
+  }
 }
