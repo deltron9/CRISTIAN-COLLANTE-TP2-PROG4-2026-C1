@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
@@ -77,7 +77,7 @@ export class AuthService {
     }
 
     if (usuario.activo === false) {
-      throw new UnauthorizedException('Cuenta desactivada por un admin');
+      throw new ForbiddenException('Cuenta desactivada por un admin');
     }
 
     const passwordCorrecta = await this.comparePasswords(passwordIngresada, usuario.password);
