@@ -1,21 +1,22 @@
 <div class="contenedor-dashboard">
-  <h1 class="titulo-dashboard">Métricas globales</h1>
+  <p class="bajada-dashboard">Monitoreo de rendimiento e interacción dentro de UTNIALS.</p>
+
   <div class="contenedor-pestanas">
     <button 
       class="btn-pestana" 
-      [class.activa]="graficoActivo() === 'publicaciones'" 
+      [class.activa]="pestanaActiva() === 'publicaciones'" 
       (click)="cambiarPestana('publicaciones')">
       Posts por Usuario
     </button>
     <button 
       class="btn-pestana" 
-      [class.activa]="graficoActivo() === 'comentarios'" 
+      [class.activa]="pestanaActiva() === 'comentarios'" 
       (click)="cambiarPestana('comentarios')">
       Historial Comentarios
     </button>
     <button 
       class="btn-pestana" 
-      [class.activa]="graficoActivo() === 'por-publicacion'" 
+      [class.activa]="pestanaActiva() === 'por-publicacion'" 
       (click)="cambiarPestana('por-publicacion')">
       Top Posts Comentados
     </button>
@@ -23,7 +24,7 @@
 
   <div class="contenedor-grafico-activo">
     
-    <div class="card-grafico" [hidden]="graficoActivo() !== 'publicaciones'">
+    <div class="card-grafico" [hidden]="pestanaActiva() !== 'publicaciones'">
       <div class="encabezado-card">
         <h3>Publicaciones por Usuario</h3>
         <select (change)="onPublicacionesChange($event)">
@@ -37,7 +38,7 @@
       </div>
     </div>
 
-    <div class="card-grafico" [hidden]="graficoActivo() !== 'comentarios'">
+    <div class="card-grafico" [hidden]="pestanaActiva() !== 'comentarios'">
       <div class="encabezado-card">
         <h3>Comentarios en el Tiempo</h3>
         <select (change)="onComentariosChange($event)">
@@ -51,7 +52,7 @@
       </div>
     </div>
 
-    <div class="card-grafico" [hidden]="graficoActivo() !== 'por-publicacion'">
+    <div class="card-grafico" [hidden]="pestanaActiva() !== 'por-publicacion'">
       <div class="encabezado-card">
         <h3>Comentarios por Publicación</h3>
         <select (change)="onPorPublicacionChange($event)">
