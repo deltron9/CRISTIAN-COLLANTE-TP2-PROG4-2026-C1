@@ -42,30 +42,31 @@ export class Usuarios implements OnInit {
   }
 
   crearUsuario() {
-    if (this.formRegistro.valid) {
-      const nuevoUsuario = this.formRegistro.value;
-      
-      this.user.crear(nuevoUsuario).subscribe(
-        async () => {
-          await this.alert.msjSuccess(`Usuario @${nuevoUsuario.username} creado con éxito`);
-          
-          this.formRegistro.reset({
-            nombre: '', apellido: '', email: '', username: '', 
-            password: '', repetirPassword: '', fechaNacimiento: '', 
-            descripcion: '', perfil: 'user'
-          });
-          
-          this.cargarUsuarios();
-          this.ventanaActiva.set('listado');
-        },
-        async (err) => {
-          await this.alert.msjError(err.error?.message);
-        }
-      );
-    } else {
-      this.formRegistro.markAllAsTouched();
-    }
+  if (this.formRegistro.valid) {
+    const nuevoUsuario = { ...this.formRegistro.value };
+    delete nuevoUsuario.repetirPassword; 
+    
+    this.user.crear(nuevoUsuario).subscribe(
+      async () => {
+        await this.alert.msjSuccess(`Usuario @${nuevoUsuario.username} creado con éxito`);
+        
+        this.formRegistro.reset({
+          nombre: '', apellido: '', email: '', username: '', 
+          password: '', repetirPassword: '', fechaNacimiento: '', 
+          descripcion: '', perfil: 'user'
+        });
+        
+        this.cargarUsuarios();
+        this.ventanaActiva.set('listado');
+      },
+      async (err) => {
+        await this.alert.msjError(err.error?.message);
+      }
+    );
+  } else {
+    this.formRegistro.markAllAsTouched();
   }
+}
 
   toggleEstado(id: string, habilitar: boolean) {
     const peticion$ = habilitar 

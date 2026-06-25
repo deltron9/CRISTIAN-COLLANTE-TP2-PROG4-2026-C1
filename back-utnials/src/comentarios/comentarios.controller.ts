@@ -3,7 +3,7 @@ import { ComentariosService } from './comentarios.service';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
 import { UpdateComentarioDto } from './dto/update-comentario.dto';
 import { JwtGuard } from '../auth/guards/jwt/jwt.guard';
-import { BaneadoGuard } from 'src/auth/guards/baneado/baneado.guard';
+import { BaneadoGuard } from '../auth/guards/baneado/baneado.guard';
 
 @Controller('comentarios')
 @UseGuards(JwtGuard, BaneadoGuard)
