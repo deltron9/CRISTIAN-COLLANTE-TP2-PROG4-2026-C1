@@ -1,10 +1,15 @@
 .footer-utnials {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     background-color: var(--color-blanco);
     font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
     font-size: 11px;
     color: var(--color-gris);
     padding: 20px 0;
     width: 100%;
+    z-index: 999;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
 body.dark-theme .footer-utnials {
