@@ -35,7 +35,7 @@ export class App implements OnInit {
       ) {
         setTimeout(() => {
           this.isCargando.set(false);
-        }, 300);
+        }, 1500);
       }
     });
   }
