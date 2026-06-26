@@ -4,9 +4,9 @@
         <img [src]="avatarAutor()" alt="Avatar" class="fb-avatar">
         <div class="post-info">
             <h4 [class.texto-admin]="autorId() === usuarioLogueado()?._id && esAdministrador()">
-                {{ nombreAutor() | rolColor:autorId():usuarioLogueado() }}
+                {{ nombreAutor() | rolColor:autorId():usuarioLogueado() | titlecase}}
             </h4>
-            <span class="post-fecha">&#64;{{ usernameAutor() }} • {{ fechaCreacion() | tiempoRelativo }}</span>
+            <span class="post-fecha">&#64;{{ usernameAutor()  }} • {{ fechaCreacion() | tiempoRelativo }}</span>
         </div>
 
         @if (puedeEliminarPublicacion()) {
@@ -17,8 +17,8 @@
     </div>
 
     <div class="post-contenido">
-        <h5>{{ tituloPost() }}</h5>
-        <p>{{ contenidoPost() | recortarTexto:120 }}</p>
+        <h5>{{ tituloPost() | titlecase }}</h5>
+        <p>{{ contenidoPost() | recortarTexto:300 }}</p>
     
         @if (imagenPost()) {
             <img [src]="imagenPost()" alt="Imagen adjunta" class="post-imagen-adjunta">
