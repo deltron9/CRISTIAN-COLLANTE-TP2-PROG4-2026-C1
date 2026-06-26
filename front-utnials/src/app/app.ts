@@ -20,22 +20,22 @@ export class App implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
-      const estaLogueado = !!this.auth.usuarioActual();
+      const estaLogueado = !!this.auth.usuarioActual(); 
 
-      if (estaLogueado) {
-        if (event instanceof NavigationStart) {
+      if (event instanceof NavigationStart) {
+        const esPantallaLogin = event.url.includes('login');
+
+        if (estaLogueado && !esPantallaLogin) {
           this.isCargando.set(true);
-        } else if (
-          event instanceof NavigationEnd ||
-          event instanceof NavigationCancel ||
-          event instanceof NavigationError
-        ) {
-          setTimeout(() => {
-            this.isCargando.set(false);
-          }, 150);
         }
-      } else {
-        this.isCargando.set(false);
+      } else if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
+      ) {
+        setTimeout(() => {
+          this.isCargando.set(false);
+        }, 300);
       }
     });
   }
