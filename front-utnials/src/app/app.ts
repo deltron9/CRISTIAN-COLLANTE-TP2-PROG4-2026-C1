@@ -23,7 +23,7 @@ export class App implements OnInit {
       const estaLogueado = !!this.auth.usuarioActual(); 
 
       if (event instanceof NavigationStart) {
-        const esPantallaLogin = event.url.includes('login');
+        const esPantallaLogin = event.url.includes('pantalla-cargando');
 
         if (estaLogueado && !esPantallaLogin) {
           this.isCargando.set(true);
@@ -35,7 +35,7 @@ export class App implements OnInit {
       ) {
         setTimeout(() => {
           this.isCargando.set(false);
-        }, 3000);
+        }, 2000);
       }
     });
   }
